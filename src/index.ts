@@ -2,11 +2,12 @@
 
 import { serve } from 'bun';
 import { parseHTML } from 'linkedom';
+import * as pkg from "../package.json";
 
 // --- v0.0.1 HARDCODED CONFIGURATION ---
 const PORT = 44080;
 const FILE_PATH = `${import.meta.dir}/../tmp/index.svh`;
-const SERVER_VERSION = '0.0.2';
+const SERVER_VERSION = pkg.version;
 // -------------------------------------
 
 // --- DYNAMIC REGISTRATION ---
