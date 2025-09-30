@@ -7,6 +7,5 @@
 </head>
 <body>
     <p>Hi from SVH on version <system get="version"></system>.</p>
-    
 </body>
 </html>

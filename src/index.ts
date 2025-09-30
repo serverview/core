@@ -10,19 +10,6 @@ const SERVER_VERSION = '0.0.1';
 // -------------------------------------
 
 /**
- * Gets a system variable (hardcoded for v0.0.1)
- * @param key The attribute value from <system get="key">
- * @returns The resulting string or an error message.
- */
-function getSystemVariable(key: string): string {
-    if (key === 'version') {
-        return SERVER_VERSION;
-    }
-    // Only 'version' is supported in v0.0.1
-    return `[SVH KEY '${key}' NOT FOUND]`;
-}
-
-/**
  * The core translation logic: finds custom elements and replaces them.
  * @param document The linkedom Document object.
  */
