@@ -9,31 +9,43 @@ const FILE_PATH = `${import.meta.dir}/../tmp/index.svh`;
 const SERVER_VERSION = '0.0.1';
 // -------------------------------------
 
+// --- DYNAMIC REGISTRATION ---
+
+// -- System Variables --
+const systemVariables = new Map<string, () => string>();
+systemVariables.set('version', () => SERVER_VERSION);
+// To add a new variable, use:
+// systemVariables.set('new_key', () => 'some_value');
+
+// -- Element Handlers --
+type ElementHandler = (element: Element) => void;
+const elementHandlers = new Map<string, ElementHandler>();
+
+// Handler for <system> elements
+elementHandlers.set('system', (element) => {
+    const key = element.getAttribute('get');
+    if (key) {
+        const handler = systemVariables.get(key);
+        const finalValue = handler ? handler() : `[SVH KEY '${key}' NOT FOUND]`;
+        element.outerHTML = `<span svd-view="system" svd-key="${key}">${finalValue}</span>`;
+    } else {
+        element.outerHTML = '[SVH ERROR: system tag missing "get" attribute]';
+    }
+});
+
+// To add a new element handler, use:
+// elementHandlers.set('new-tag', (element) => { /* ... custom logic ... */ });
+
+// --------------------------
+
 /**
  * The core translation logic: finds custom elements and replaces them.
  * @param document The linkedom Document object.
  */
 function translateDocument(document: Document): void {
-    const systemElements = document.querySelectorAll('system');
-
-    systemElements.forEach(element => {
-        const key = element.getAttribute('get');
-
-        let finalValue: string;
-
-        switch (key) {
-            case 'version':
-                finalValue = SERVER_VERSION;
-                break;
-            default:
-                finalValue = `[SVH KEY '${key}' NOT FOUND]`;
-        }
-
-        if (key) {
-            element.outerHTML = `<span svd-view="system" svd-key="${key}">${finalValue}</span>`;
-        } else {
-            element.outerHTML = '[SVH ERROR: system tag missing "get" attribute]';
-        }
+    elementHandlers.forEach((handler, tagName) => {
+        const elements = document.querySelectorAll(tagName);
+        elements.forEach(element => handler(element));
     });
 }
 
