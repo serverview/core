@@ -6,7 +6,7 @@ import { parseHTML } from 'linkedom';
 // --- v0.0.1 HARDCODED CONFIGURATION ---
 const PORT = 44080;
 const FILE_PATH = `${import.meta.dir}/../tmp/index.svh`;
-const SERVER_VERSION = '0.0.1';
+const SERVER_VERSION = '0.0.2';
 // -------------------------------------
 
 // --- DYNAMIC REGISTRATION ---
@@ -33,6 +33,45 @@ elementHandlers.set('system', (element) => {
     }
 });
 
+// Handler for <condition> elements
+elementHandlers.set('condition', (element) => {
+    const isAttr = element.getAttribute('is');
+    if (!isAttr) {
+        element.outerHTML = '[SVH ERROR: condition tag missing "is" attribute]';
+        return;
+    }
+    const condition = isAttr.trim().toLowerCase();
+
+    // Get container tag, default to 'div'
+    const defaultContainerTag = element.getAttribute('container') || 'div';
+
+    if (condition === 'true' || condition === 'false') {
+        let finalValue: string;
+        let containerTag = defaultContainerTag;
+
+        if (condition === 'true') {
+            const thenElem = element.querySelector('then');
+            if (thenElem) {
+                finalValue = thenElem.innerHTML;
+                containerTag = thenElem.getAttribute('container') || defaultContainerTag;
+            } else {
+                finalValue = element.innerHTML;
+            }
+        } else { // condition === 'false'
+            const elseElem = element.querySelector('else');
+            if (elseElem) {
+                finalValue = elseElem.innerHTML;
+                containerTag = elseElem.getAttribute('container') || defaultContainerTag;
+            } else {
+                finalValue = '';
+            }
+        }
+        element.outerHTML = `<${containerTag} svd-condition="${condition}">${finalValue}</${containerTag}>`;
+    } else {
+        element.outerHTML = `[SVH ERROR: condition tag "is" attribute must be 'true' or 'false']`;
+    }
+});
+
 // To add a new element handler, use:
 // elementHandlers.set('new-tag', (element) => { /* ... custom logic ... */ });
 
@@ -40,13 +79,21 @@ elementHandlers.set('system', (element) => {
 
 /**
  * The core translation logic: finds custom elements and replaces them.
+ * This function loops until no more custom elements are found, allowing for nested elements.
  * @param document The linkedom Document object.
  */
 function translateDocument(document: Document): void {
-    elementHandlers.forEach((handler, tagName) => {
-        const elements = document.querySelectorAll(tagName);
-        elements.forEach(element => handler(element));
-    });
+    let changed = true;
+    while (changed) {
+        changed = false;
+        for (const [tagName, handler] of elementHandlers.entries()) {
+            const elements = document.querySelectorAll(tagName);
+            if (elements.length > 0) {
+                changed = true;
+                elements.forEach(element => handler(element));
+            }
+        }
+    }
 }
 
 // Start the Bun Server
