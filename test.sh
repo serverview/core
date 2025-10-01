@@ -12,5 +12,5 @@ echo "BASE_PATH: $BASE_PATH"
 echo "INDEX_FILES: $INDEX_FILES"
 echo "---"
 
-# Run the server
-bun run src/index.ts
+# Run the server from the built binary
+./dist/svh-x64
