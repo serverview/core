@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set environment variables for the server
-export PORT="44080"
+export PORT="44090"
 export BASE_PATH="$(pwd)/tmp"
 export INDEX_FILES="index.svh,index.html"
 
