@@ -100,11 +100,14 @@ elementHandlers.set("include", async (element) => {
     }
 
     try {
-        console.log(`Including file: ${resolvedPath}`);
         const fileContent = await file.text();
-        const doc = parseHTML(fileContent).document;
-        await translateDocument(doc);
-        element.outerHTML = doc.toString();
+        if (src.endsWith('.svh')) {
+            const doc = parseHTML(fileContent).document;
+            await translateDocument(doc);
+            element.outerHTML = doc.toString();
+        } else {
+            element.outerHTML = fileContent;
+        }
     } catch (error) {
         element.outerHTML = `[SVH ERROR: error including file at '${src}': ${error instanceof Error ? error.message : "Unknown error"}]`;
     }
