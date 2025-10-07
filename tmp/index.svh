@@ -17,7 +17,7 @@
         </then>
         <else>This text would show if the condition were false.</else>
     </condition>
-    <br>
+    <include src="include.svh"></include>
     <condition is="true" container="span">
         <then>This text is in a span.</then>
         <else>This text will not be shown.</else>

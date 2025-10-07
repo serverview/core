@@ -21,7 +21,7 @@ systemVariables.set('version', () => SV_VERSION);
 // systemVariables.set('new_key', () => 'some_value');
 
 // -- Element Handlers --
-type ElementHandler = (element: Element) => void;
+type ElementHandler = (element: Element) => void | Promise<void>;
 const elementHandlers = new Map<string, ElementHandler>();
 
 // Handler for <system> elements
@@ -75,6 +75,41 @@ elementHandlers.set('condition', (element) => {
     }
 });
 
+// Handler for <include> elements
+elementHandlers.set("include", async (element) => {
+    const src = element.getAttribute('src');
+
+    if(!src){
+        element.outerHTML = '[SVH ERROR: include tag missing "src" attribute]';
+        return;
+    }
+
+    const resolvedPath = path.resolve(BASE_PATH, src);
+
+    // Security check to prevent directory traversal
+    const resolvedBasePath = path.resolve(BASE_PATH);
+    if (!resolvedPath.startsWith(resolvedBasePath)) {
+        element.outerHTML = '[SVH ERROR: include "src" attribute points outside of base path]';
+        return;
+    }
+
+    const file = Bun.file(resolvedPath);
+    if (!await file.exists()) {
+        element.outerHTML = `[SVH ERROR: include file not found at '${src}']`;
+        return;
+    }
+
+    try {
+        console.log(`Including file: ${resolvedPath}`);
+        const fileContent = await file.text();
+        const doc = parseHTML(fileContent).document;
+        await translateDocument(doc);
+        element.outerHTML = doc.toString();
+    } catch (error) {
+        element.outerHTML = `[SVH ERROR: error including file at '${src}': ${error instanceof Error ? error.message : "Unknown error"}]`;
+    }
+});
+
 // To add a new element handler, use:
 // elementHandlers.set('new-tag', (element) => { /* ... custom logic ... */ });
 
@@ -85,7 +120,7 @@ elementHandlers.set('condition', (element) => {
  * This function loops until no more custom elements are found, allowing for nested elements.
  * @param document The linkedom Document object.
  */
-function translateDocument(document: Document): void {
+async function translateDocument(document: Document): Promise<void> {
     let changed = true;
     while (changed) {
         changed = false;
@@ -93,7 +128,9 @@ function translateDocument(document: Document): void {
             const elements = document.querySelectorAll(tagName);
             if (elements.length > 0) {
                 changed = true;
-                elements.forEach(element => handler(element));
+                for (const element of Array.from(elements)) {
+                    await handler(element);
+                }
             }
         }
     }
@@ -167,7 +204,7 @@ serve({
             try {
                 const fileContent = await file.text();
                 const document = parseHTML(fileContent).document;
-                translateDocument(document);
+                await translateDocument(document);
                 return new Response(document.toString(), {
                     headers: { 'Content-Type': 'text/html' },
                 });
