@@ -50,5 +50,20 @@
     <fetch href="/example.txt" as="fileContent"></fetch>
     <p>Fetched content: <variable get="fileContent"></variable></p>
 
+    <hr>
+
+    <h2>5. Handling JSON Data</h2>
+    <p>You can fetch JSON data and access its properties using dot notation.</p>
+    <p><em>Example:</em></p>
+    <code>&lt;fetch href="/user.json" as="userData"&gt;&lt;/fetch&gt;</code><br>
+    <code>&lt;p&gt;User's Name: &lt;variable get="userData.name"&gt;&lt;/variable&gt;&lt;/p&gt;</code><br>
+    <code>&lt;p&gt;User's Age: &lt;variable get="userData.age"&gt;&lt;/variable&gt;&lt;/p&gt;</code><br>
+    <code>&lt;p&gt;User's City: &lt;variable get="userData.address.city"&gt;&lt;/variable&gt;&lt;/p&gt;</code>
+    <p><em>Output:</em></p>
+    <fetch href="/user.json" as="userData"></fetch>
+    <p>User's Name: <variable get="userData.name"></variable></p>
+    <p>User's Age: <variable get="userData.age"></variable></p>
+    <p>User's City: <variable get="userData.address.city"></variable></p>
+
 </body>
 </html>

@@ -1,5 +1,5 @@
 export type Key = string;
-export type Value = string; 
+export type Value = any; 
 
 export type VariableMap = Map<Key, Value>;
 
