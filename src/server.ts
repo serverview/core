@@ -4,6 +4,7 @@ import { parseHTML } from 'linkedom';
 import path from 'path';
 import { PORT, BASE_PATH, INDEX_FILES } from './config';
 import { translateDocument } from './translator';
+import { initializeRequestVariables } from './variable';
 
 // Start the Bun Server
 export function startServer() {
@@ -74,7 +75,9 @@ export function startServer() {
                 try {
                     const fileContent = await file.text();
                     const document = parseHTML(fileContent).document;
-                    await translateDocument(document);
+                    const requestVariables = initializeRequestVariables(request);
+                    requestVariables.set('request.baseUrl', url.origin);
+                    await translateDocument(document, requestVariables);
                     return new Response(document.toString(), {
                         headers: { 'Content-Type': 'text/html' },
                     });

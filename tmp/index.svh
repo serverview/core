@@ -1,26 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello from SVH</title>
+    <title>SVH Showcase</title>
 </head>
 <body>
-    <p>Hi from SVH on version <system get="version"></system>.</p>
-    <condition is="true" container="div">
-        <then>
-            This text shows because the outer condition is true.
-            <condition is="true">
-                <then container="p">This is a nested condition in a paragraph.</then>
-                <else><p>This should not show.</p></else>
-            </condition>
-        </then>
-        <else>This text would show if the condition were false.</else>
-    </condition>
+
+    <h1>Welcome to the SVH Showcase!</h1>
+    <p>This page demonstrates the powerful features of Server View HTML (SVH).</p>
+
+    <hr>
+
+    <h2>1. Displaying System & Request Information with <code>&lt;system&gt;</code></h2>
+    <p>You can easily display server-side information, like the current version of this application or details about the incoming request.</p>
+    <p><em>Example:</em></p>
+    <code>&lt;p&gt;Running on version: &lt;system get="version"&gt;&lt;/system&gt;&lt;/p&gt;</code>
+    <p><em>Output:</em></p>
+    <p>Running on version: <system get="version"></system></p>
+    <br>
+    <code>&lt;p&gt;URL requested: &lt;system get="request.url"&gt;&lt;/system&gt;&lt;/p&gt;</code>
+    <p><em>Output:</em></p>
+    <p>URL requested: <system get="request.url"></system></p>
+
+    <hr>
+
+    <h2>2. Conditional Rendering with <code>&lt;condition&gt;</code></h2>
+    <p>You can show or hide content based on a simple boolean value.</p>
+    <p><em>Example:</em></p>
+    <code>&lt;condition is="true"&gt;&lt;then&gt;This message is shown because the condition is true.&lt;/then&gt;&lt;/condition&gt;</code>
+    <p><em>Output:</em></p>
+    <condition is="true"><then>This message is shown because the condition is true.</then></condition>
+
+    <hr>
+
+    <h2>3. Including Local Files with <code>&lt;include&gt;</code></h2>
+    <p>You can embed content from other files directly into your page. Here we are including the content of <code>include.svh</code>:</p>
+    <p><em>Example:</em></p>
+    <code>&lt;include src="include.svh"&gt;&lt;/include&gt;</code>
+    <p><em>Output:</em></p>
     <include src="include.svh"></include>
-    <condition is="true" container="span">
-        <then>This text is in a span.</then>
-        <else>This text will not be shown.</else>
-    </condition>
+
+    <hr>
+
+    <h2>4. Fetching Remote Data with <code>&lt;fetch&gt;</code> and <code>&lt;variable&gt;</code></h2>
+    <p>You can fetch data from a URL and display it anywhere on your page. Here we fetch <code>example.txt</code> and display its content.</p>
+    <p><em>Example:</em></p>
+    <code>&lt;fetch href="/example.txt" as="fileContent"&gt;&lt;/fetch&gt;</code><br>
+    <code>&lt;p&gt;Fetched content: &lt;variable get="fileContent"&gt;&lt;/variable&gt;&lt;/p&gt;</code>
+    <p><em>Output:</em></p>
+    <fetch href="/example.txt" as="fileContent"></fetch>
+    <p>Fetched content: <variable get="fileContent"></variable></p>
+
 </body>
 </html>

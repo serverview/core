@@ -1,12 +1,14 @@
 
 import { elementHandlers } from "./handlers";
+import { VariableMap } from "./variable";
 
 /**
  * The core translation logic: finds custom elements and replaces them.
  * This function loops until no more custom elements are found, allowing for nested elements.
  * @param document The linkedom Document object.
+ * @param requestVariables The map of request-specific variables.
  */
-export async function translateDocument(document: Document): Promise<void> {
+export async function translateDocument(document: Document, requestVariables: VariableMap): Promise<void> {
     let changed = true;
     while (changed) {
         changed = false;
@@ -15,7 +17,7 @@ export async function translateDocument(document: Document): Promise<void> {
             if (elements.length > 0) {
                 changed = true;
                 for (const element of Array.from(elements)) {
-                    await handler(element);
+                    await handler(element, requestVariables);
                 }
             }
         }
