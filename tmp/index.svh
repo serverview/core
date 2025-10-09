@@ -6,7 +6,7 @@
 <body>
 
     <h1>Welcome to the SVH Showcase!</h1>
-    <p>This page demonstrates the powerful features of Server View HTML (SVH).</p>
+    <p>This page demonstrates the powerful features of Server View HTML (SVH). A server side html enhanced language for building dynamic web applications with the Server View suite.</p>
 
     <hr>
 
