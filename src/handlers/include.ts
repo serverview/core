@@ -2,8 +2,7 @@ import { parseHTML } from 'linkedom';
 import path from 'path';
 import { BASE_PATH } from '../config';
 import { translateDocument } from '../translator';
-import { VariableMap } from '../variable';
-import { ElementHandler } from '../types';
+import { type ElementHandler } from '../types';
 
 const includeHandler: ElementHandler = async (element, requestVariables) => {
     const src = element.getAttribute('src');
