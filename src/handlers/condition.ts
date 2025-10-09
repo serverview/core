@@ -1,4 +1,4 @@
-import { VariableMap } from '../variable';
+import type { VariableMap } from '../variable';
 import { ElementHandler } from '../types';
 
 const conditionHandler: ElementHandler = (element, requestVariables) => {

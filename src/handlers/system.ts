@@ -1,5 +1,5 @@
 import { SV_VERSION } from '../config';
-import { VariableMap } from '../variable';
+import type { VariableMap } from '../variable';
 import { ElementHandler } from '../types';
 
 const systemVariables = new Map<string, () => string>();

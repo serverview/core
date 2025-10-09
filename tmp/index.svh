@@ -65,5 +65,48 @@
     <p>User's Age: <variable get="userData.age"></variable></p>
     <p>User's City: <variable get="userData.address.city"></variable></p>
 
+    <hr>
+
+    <h2>6. Iterating over Data with <code>&lt;iterate&gt;</code></h2>
+    <p>You can loop over arrays in your data and render content for each item.</p>
+    <p><em>Example:</em></p>
+    <code>
+    <pre>
+    &lt;table border="1"&gt;
+      &lt;thead&gt;
+        &lt;tr&gt;
+          &lt;th&gt;Course Title&lt;/th&gt;
+          &lt;th&gt;Credits&lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody&gt;
+        &lt;iterate over="userData.courses" as="course"&gt;
+          &lt;tr&gt;
+            &lt;td&gt;&lt;variable get="course.title" /&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;variable get="course.credits" /&gt;&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/iterate&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+    </pre>
+    </code>
+    <p><em>Output:</em></p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Course Title</th>
+          <th>Credits</th>
+        </tr>
+      </thead>
+      <tbody>
+        <iterate over="userData.courses" as="course">
+          <tr>
+            <td><variable get="course.title" /></td>
+            <td><variable get="course.credits" /></td>
+          </tr>
+        </iterate>
+      </tbody>
+    </table>
+
 </body>
 </html>
