@@ -76,17 +76,32 @@ const conditionHandler: ElementHandler = (element, requestVariables) => {
             const valueToCompare = parts[1];
             const varValue = getVariableValue(varPath, requestVariables);
 
-            const numVarValue = varValue !== undefined ? parseFloat(varValue) : NaN;
-            const numValueToCompare = parseFloat(valueToCompare);
+            if (varValue !== undefined) {
+                // Check if the value to compare is a quoted string
+                if (valueToCompare.startsWith('\'') && valueToCompare.endsWith('\'')) {
+                    const strValueToCompare = valueToCompare.slice(1, -1);
+                    const strVarValue = String(varValue);
+                    switch (operator) {
+                        case '==': showThen = strVarValue == strValueToCompare; break;
+                        case '!=': showThen = strVarValue != strValueToCompare; break;
+                        default: 
+                            element.outerHTML = `[SVH ERROR: Invalid operator for string comparison: ${operator}]`;
+                            return;
+                    }
+                } else {
+                    const numVarValue = parseFloat(varValue);
+                    const numValueToCompare = parseFloat(valueToCompare);
 
-            if (!isNaN(numVarValue) && !isNaN(numValueToCompare)) {
-                switch (operator) {
-                    case '==': showThen = numVarValue == numValueToCompare; break;
-                    case '!=': showThen = numVarValue != numValueToCompare; break;
-                    case '>': showThen = numVarValue > numValueToCompare; break;
-                    case '<': showThen = numVarValue < numValueToCompare; break;
-                    case '>=': showThen = numVarValue >= numValueToCompare; break;
-                    case '<=': showThen = numVarValue <= numValueToCompare; break;
+                    if (!isNaN(numVarValue) && !isNaN(numValueToCompare)) {
+                        switch (operator) {
+                            case '==': showThen = numVarValue == numValueToCompare; break;
+                            case '!=': showThen = numVarValue != numValueToCompare; break;
+                            case '>': showThen = numVarValue > numValueToCompare; break;
+                            case '<': showThen = numVarValue < numValueToCompare; break;
+                            case '>=': showThen = numVarValue >= numValueToCompare; break;
+                            case '<=': showThen = numVarValue <= numValueToCompare; break;
+                        }
+                    }
                 }
             }
         } else {

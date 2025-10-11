@@ -186,15 +186,117 @@
                 
                         
                 
-                                <p><em>Example (userData.age != 30):</em></p>
+                                        <p><em>Example (userData.age != 30):</em></p>
                 
-                                <code>&lt;condition is="userData.age != 30"&gt;&lt;then&gt;This will not be displayed.&lt;/then&gt;&lt;else&gt;userData.age is 30.&lt;/else&gt;&lt;/condition&gt;</code>
+                        
                 
-                                <p><em>Output:</em></p>
+                                        <code>&lt;condition is="userData.age != 30"&gt;&lt;then&gt;This will not be displayed.&lt;/then&gt;&lt;else&gt;userData.age is 30.&lt;/else&gt;&lt;/condition&gt;</code>
                 
-                                <condition is="userData.age != 30"><then>This will not be displayed.</then><else>userData.age is 30.</else></condition>
+                        
                 
-                            
+                                        <p><em>Output:</em></p>
                 
-                            </body>        </html>
+                        
+                
+                                        <condition is="userData.age != 30"><then>This will not be displayed.</then><else>userData.age is 30.</else></condition>
+                
+                        
+                
+                                
+                
+                        
+                
+                                        <hr>
+                
+                        
+                
+                                
+                
+                        
+                
+                                        <h2>9. String Comparisons in Conditions</h2>
+                
+                        
+                
+                                        <p>You can perform string comparisons in your conditions. Remember to enclose the string in single quotes.</p>
+                
+                        
+                
+                                
+                
+                        
+                
+                                        <h3>Equality:</h3>
+                
+                        
+                
+                                        <p><em>Example:</em></p>
+                
+                        
+                
+                                        <code>&lt;condition is="userData.name == 'John Doe'"&gt;&lt;then&gt;User is John Doe.&lt;/then&gt;&lt;/condition&gt;</code>
+                
+                        
+                
+                                        <p><em>Output:</em></p>
+                
+                        
+                
+                                        <condition is="userData.name == 'John Doe'"><then>User is John Doe.</then></condition>
+                
+                        
+                
+                                
+                
+                        
+                
+                                        <h3>Inequality:</h3>
+                
+                        
+                
+                                        <p><em>Example:</em></p>
+                
+                        
+                
+                                        <code>&lt;condition is="userData.name != 'Jane Doe'"&gt;&lt;then&gt;User is not Jane Doe.&lt;/then&gt;&lt;/condition&gt;</code>
+                
+                        
+                
+                                        <p><em>Output:</em></p>
+                
+                        
+                
+                                        <condition is="userData.name != 'Jane Doe'"><then>User is not Jane Doe.</then></condition>
+                
+                        
+                
+                                
+                
+                        
+                
+                                        <h3>False Condition:</h3>
+                
+                        
+                
+                                        <p><em>Example:</em></p>
+                
+                        
+                
+                                        <code>&lt;condition is="userData.name == 'Jane Doe'"&gt;&lt;then&gt;This will not be displayed.&lt;/then&gt;&lt;else&gt;User is not Jane Doe.&lt;/else&gt;&lt;/condition&gt;</code>
+                
+                        
+                
+                                        <p><em>Output:</em></p>
+                
+                        
+                
+                                        <condition is="userData.name == 'Jane Doe'"><then>This will not be displayed.</then><else>User is not Jane Doe.</else></condition>
+                
+                        
+                
+                                    
+                
+                        
+                
+                                    </body>        </html>
         
