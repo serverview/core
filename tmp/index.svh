@@ -50,63 +50,91 @@
     <fetch href="/example.txt" as="fileContent"></fetch>
     <p>Fetched content: <variable get="fileContent"></variable></p>
 
-    <hr>
-
-    <h2>5. Handling JSON Data</h2>
-    <p>You can fetch JSON data and access its properties using dot notation.</p>
-    <p><em>Example:</em></p>
-    <code>&lt;fetch href="/user.json" as="userData"&gt;&lt;/fetch&gt;</code><br>
-    <code>&lt;p&gt;User's Name: &lt;variable get="userData.name"&gt;&lt;/variable&gt;&lt;/p&gt;</code><br>
-    <code>&lt;p&gt;User's Age: &lt;variable get="userData.age"&gt;&lt;/variable&gt;&lt;/p&gt;</code><br>
-    <code>&lt;p&gt;User's City: &lt;variable get="userData.address.city"&gt;&lt;/variable&gt;&lt;/p&gt;</code>
-    <p><em>Output:</em></p>
-    <fetch href="/user.json" as="userData"></fetch>
-    <p>User's Name: <variable get="userData.name"></variable></p>
-    <p>User's Age: <variable get="userData.age"></variable></p>
-    <p>User's City: <variable get="userData.address.city"></variable></p>
-
-    <hr>
-
-    <h2>6. Iterating over Data with <code>&lt;iterate&gt;</code></h2>
-    <p>You can loop over arrays in your data and render content for each item.</p>
-    <p><em>Example:</em></p>
-    <code>
-    <pre>
-    &lt;table border="1"&gt;
-      &lt;thead&gt;
-        &lt;tr&gt;
-          &lt;th&gt;Course Title&lt;/th&gt;
-          &lt;th&gt;Credits&lt;/th&gt;
-        &lt;/tr&gt;
-      &lt;/thead&gt;
-      &lt;tbody&gt;
-        &lt;iterate over="userData.courses" as="course"&gt;
-          &lt;tr&gt;
-            &lt;td&gt;&lt;variable get="course.title" /&gt;&lt;/td&gt;
-            &lt;td&gt;&lt;variable get="course.credits" /&gt;&lt;/td&gt;
-          &lt;/tr&gt;
-        &lt;/iterate&gt;
-      &lt;/tbody&gt;
-    &lt;/table&gt;
-    </pre>
-    </code>
-    <p><em>Output:</em></p>
-    <table border="1">
-      <thead>
-        <tr>
-          <th>Course Title</th>
-          <th>Credits</th>
-        </tr>
-      </thead>
-      <tbody>
-        <iterate over="userData.courses" as="course">
-          <tr>
-            <td><variable get="course.title" /></td>
-            <td><variable get="course.credits" /></td>
-          </tr>
-        </iterate>
-      </tbody>
-    </table>
-
-</body>
-</html>
+            <hr>
+        
+            <h2>5. Handling JSON Data</h2>
+            <p>You can fetch JSON data and access its properties using dot notation.</p>
+            <p><em>Example:</em></p>
+            <code>&lt;fetch href="/user.json" as="userData"&gt;&lt;/fetch&gt;</code><br>
+            <code>&lt;p&gt;User's Name: &lt;variable get="userData.name"&gt;&lt;/variable&gt;&lt;/p&gt;</code><br>
+            <code>&lt;p&gt;User's Age: &lt;variable get="userData.age"&gt;&lt;/variable&gt;&lt;/p&gt;</code><br>
+            <code>&lt;p&gt;User's City: &lt;variable get="userData.address.city"&gt;&lt;/variable&gt;&lt;/p&gt;</code>
+            <p><em>Output:</em></p>
+            <fetch href="/user.json" as="userData"></fetch>
+            <p>User's Name: <variable get="userData.name"></variable></p>
+            <p>User's Age: <variable get="userData.age"></variable></p>
+            <p>User's City: <variable get="userData.address.city"></variable></p>
+        
+            <hr>
+        
+            <h2>6. Iterating over Data with <code>&lt;iterate&gt;</code></h2>
+            <p>You can loop over arrays in your data and render content for each item.</p>
+            <p><em>Example:</em></p>
+            <code>
+            <pre>
+            &lt;table border="1"&gt;
+              &lt;thead&gt;
+                &lt;tr&gt;
+                  &lt;th&gt;Course Title&lt;/th&gt;
+                  &lt;th&gt;Credits&lt;/th&gt;
+                &lt;/tr&gt;
+              &lt;/thead&gt;
+              &lt;tbody&gt;
+                &lt;iterate over="userData.courses" as="course"&gt;
+                  &lt;tr&gt;
+                    &lt;td&gt;&lt;variable get="course.title" /&gt;&lt;/td&gt;
+                    &lt;td&gt;&lt;variable get="course.credits" /&gt;&lt;/td&gt;
+                  &lt;/tr&gt;
+                &lt;/iterate&gt;
+              &lt;/tbody&gt;
+            &lt;/table&gt;
+            </pre>
+            </code>
+            <p><em>Output:</em></p>
+            <table border="1">
+              <thead>
+                <tr>
+                  <th>Course Title</th>
+                  <th>Credits</th>
+                </tr>
+              </thead>
+              <tbody>
+                <iterate over="userData.courses" as="course">
+                  <tr>
+                    <td><variable get="course.title" /></td>
+                    <td><variable get="course.credits" /></td>
+                  </tr>
+                </iterate>
+              </tbody>
+                </table>
+            
+                <hr>
+            
+                                <h2>7. Advanced Conditional Rendering with `defined` and `undefined`</h2>
+                                <p>You can check if a variable has been defined, which is useful for dynamically rendering content based on fetched data or other server-side logic.</p>                <h3>Checking for a defined variable:</h3>
+                <p><em>Example:</em></p>
+                <code>&lt;condition is="userData defined"&gt;&lt;then&gt;The variable 'userData' is defined!&lt;/then&gt;&lt;else&gt;The variable 'userData' is not defined.&lt;/else&gt;&lt;/condition&gt;</code>
+                <p><em>Output:</em></p>
+                <condition is="userData defined"><then>The variable 'userData' is defined!</then><else>The variable 'userData' is not defined.</else></condition>
+            
+                <h3>Checking for an undefined variable:</h3>
+                <p><em>Example:</em></p>
+                <code>&lt;condition is="nonExistentVar undefined"&gt;&lt;then&gt;The variable 'nonExistentVar' is not defined, so this message is shown.&lt;/then&gt;&lt;else&gt;This will not appear.&lt;/else&gt;&lt;/condition&gt;</code>
+                <p><em>Output:</em></p>
+                <condition is="nonExistentVar undefined"><then>The variable 'nonExistentVar' is not defined, so this message is shown.</then><else>This will not appear.</else></condition>
+            
+                <h3>Checking for a nested property in a JSON object:</h3>
+                <p><em>Example:</em></p>
+                <code>&lt;condition is="userData.address defined"&gt;&lt;then&gt;The 'userData.address' property exists.&lt;/then&gt;&lt;/condition&gt;</code>
+                <p><em>Output:</em></p>
+                <condition is="userData.address defined"><then>The 'userData.address' property exists.</then></condition>
+        
+                <h3>Checking for a non-existent nested property:</h3>
+                <p><em>Example:</em></p>
+                <code>&lt;condition is="userData.nonexistentProperty undefined"&gt;&lt;then&gt;This message appears because 'userData.nonexistentProperty' is indeed undefined.&lt;/then&gt;&lt;/condition&gt;</code>
+                <p><em>Output:</em></p>
+                <condition is="userData.nonexistentProperty undefined"><then>This message appears because 'userData.nonexistentProperty' is indeed undefined.</then></condition>
+            
+            </body>
+        </html>
+        
