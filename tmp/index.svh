@@ -278,25 +278,133 @@
                 
                         
                 
-                                        <p><em>Example:</em></p>
+                                                <p><em>Example:</em></p>
                 
                         
                 
-                                        <code>&lt;condition is="userData.name == 'Jane Doe'"&gt;&lt;then&gt;This will not be displayed.&lt;/then&gt;&lt;else&gt;User is not Jane Doe.&lt;/else&gt;&lt;/condition&gt;</code>
+                                                <code>&lt;condition is="userData.name == 'Jane Doe'"&gt;&lt;then&gt;This will not be displayed.&lt;/then&gt;&lt;else&gt;User is not Jane Doe.&lt;/else&gt;&lt;/condition&gt;</code>
                 
                         
                 
-                                        <p><em>Output:</em></p>
+                                                <p><em>Output:</em></p>
                 
                         
                 
-                                        <condition is="userData.name == 'Jane Doe'"><then>This will not be displayed.</then><else>User is not Jane Doe.</else></condition>
+                                                <condition is="userData.name == 'Jane Doe'"><then>This will not be displayed.</then><else>User is not Jane Doe.</else></condition>
                 
                         
                 
-                                    
+                                        
                 
                         
                 
-                                    </body>        </html>
+                                                <hr>
+                
+                        
+                
+                                        
+                
+                        
+                
+                                                <h2>10. Contains Operator in Conditions</h2>
+                
+                        
+                
+                                                <p>You can check if a string contains a substring or if an array contains a specific value.</p>
+                
+                        
+                
+                                        
+                
+                        
+                
+                                                <h3>String Contains:</h3>
+                
+                        
+                
+                                                <p><em>Example:</em></p>
+                
+                        
+                
+                                                <code>&lt;condition is="userData.name contains 'Doe'"&gt;&lt;then&gt;User's name contains 'Doe'.&lt;/then&gt;&lt;/condition&gt;</code>
+                
+                        
+                
+                                                <p><em>Output:</em></p>
+                
+                        
+                
+                                                <condition is="userData.name contains 'Doe'"><then>User's name contains 'Doe'.</then></condition>
+                
+                        
+                
+                                        
+                
+                        
+                
+                                                        <h3>Array Contains:</h3>
+                
+                        
+                
+                                        
+                
+                        
+                
+                                                        <p><em>Example:</em></p>
+                
+                        
+                
+                                        
+                
+                        
+                
+                                                        <code>&lt;condition is="userData.courses.title contains 'Math'"&gt;&lt;then&gt;User is enrolled in Math.&lt;/then&gt;&lt;/condition&gt;</code>
+                
+                        
+                
+                                        
+                
+                        
+                
+                                                        <p><em>Output:</em></p>
+                
+                        
+                
+                                        
+                
+                        
+                
+                                                        <condition is="userData.courses.title contains 'Math'"><then>User is enrolled in Math.</then></condition>
+                
+                        
+                
+                                        
+                
+                        
+                
+                                                <h3>False Condition:</h3>
+                
+                        
+                
+                                                <p><em>Example:</em></p>
+                
+                        
+                
+                                                <code>&lt;condition is="userData.name contains 'Smith'"&gt;&lt;then&gt;This will not be displayed.&lt;/then&gt;&lt;else&gt;User's name does not contain 'Smith'.&lt;/else&gt;&lt;/condition&gt;</code>
+                
+                        
+                
+                                                <p><em>Output:</em></p>
+                
+                        
+                
+                                                <condition is="userData.name contains 'Smith'"><then>This will not be displayed.</then><else>User's name does not contain 'Smith'.</else></condition>
+                
+                        
+                
+                                            
+                
+                        
+                
+                                            </body>        </html>
         
