@@ -129,12 +129,72 @@
                 <p><em>Output:</em></p>
                 <condition is="userData.address defined"><then>The 'userData.address' property exists.</then></condition>
         
-                <h3>Checking for a non-existent nested property:</h3>
-                <p><em>Example:</em></p>
-                <code>&lt;condition is="userData.nonexistentProperty undefined"&gt;&lt;then&gt;This message appears because 'userData.nonexistentProperty' is indeed undefined.&lt;/then&gt;&lt;/condition&gt;</code>
-                <p><em>Output:</em></p>
-                <condition is="userData.nonexistentProperty undefined"><then>This message appears because 'userData.nonexistentProperty' is indeed undefined.</then></condition>
-            
-            </body>
-        </html>
+                        <h3>Checking for a non-existent nested property:</h3>
+                        <p><em>Example:</em></p>
+                        <code>&lt;condition is="userData.nonexistentProperty undefined"&gt;&lt;then&gt;This message appears because 'userData.nonexistentProperty' is indeed undefined.&lt;/then&gt;&lt;/condition&gt;</code>
+                        <p><em>Output:</em></p>
+                        <condition is="userData.nonexistentProperty undefined"><then>This message appears because 'userData.nonexistentProperty' is indeed undefined.</then></condition>
+                
+                        <hr>
+                
+                        <h2>8. Numeric Comparisons in Conditions</h2>
+                        <p>You can perform numeric comparisons in your conditions.</p>
+                
+                        <h3>Greater Than:</h3>
+                        <p><em>Example:</em></p>
+                        <code>&lt;condition is="userData.age > 18"&gt;&lt;then&gt;User is older than 18.&lt;/then&gt;&lt;/condition&gt;</code>
+                        <p><em>Output:</em></p>
+                        <condition is="userData.age > 18"><then>User is older than 18.</then></condition>
+                
+                        <h3>Less Than or Equal To:</h3>
+                        <p><em>Example:</em></p>
+                        <code>&lt;condition is="userData.age <= 30"&gt;&lt;then&gt;User is 30 or younger.&lt;/then&gt;&lt;/condition&gt;</code>
+                        <p><em>Output:</em></p>
+                        <condition is="userData.age <= 30"><then>User is 30 or younger.</then></condition>
+                
+                                <h3>Equality:</h3>
+                
+                                <p><em>Example:</em></p>
+                
+                                <code>&lt;condition is="userData.age == 30"&gt;&lt;then&gt;User is exactly 30.&lt;/then&gt;&lt;else&gt;User is not 30.&lt;/else&gt;&lt;/condition&gt;</code>
+                
+                                <p><em>Output:</em></p>
+                
+                                <condition is="userData.age == 30"><then>User is exactly 30.</then><else>User is not 30.</else></condition>
+                
+                        
+                
+                                <h3>False Conditions:</h3>
+                
+                                <p><em>Example (userData.age > 40):</em></p>
+                
+                                <code>&lt;condition is="userData.age > 40"&gt;&lt;then&gt;This will not be displayed.&lt;/then&gt;&lt;else&gt;userData.age is not > 40.&lt;/else&gt;&lt;/condition&gt;</code>
+                
+                                <p><em>Output:</em></p>
+                
+                                <condition is="userData.age > 40"><then>This will not be displayed.</then><else>userData.age is not > 40.</else></condition>
+                
+                        
+                
+                                <p><em>Example (userData.age < 20):</em></p>
+                
+                                <code>&lt;condition is="userData.age < 20"&gt;&lt;then&gt;This will not be displayed.&lt;/then&gt;&lt;else&gt;userData.age is not < 20.&lt;/else&gt;&lt;/condition&gt;</code>
+                
+                                <p><em>Output:</em></p>
+                
+                                <condition is="userData.age < 20"><then>This will not be displayed.</then><else>userData.age is not < 20.</else></condition>
+                
+                        
+                
+                                <p><em>Example (userData.age != 30):</em></p>
+                
+                                <code>&lt;condition is="userData.age != 30"&gt;&lt;then&gt;This will not be displayed.&lt;/then&gt;&lt;else&gt;userData.age is 30.&lt;/else&gt;&lt;/condition&gt;</code>
+                
+                                <p><em>Output:</em></p>
+                
+                                <condition is="userData.age != 30"><then>This will not be displayed.</then><else>userData.age is 30.</else></condition>
+                
+                            
+                
+                            </body>        </html>
         

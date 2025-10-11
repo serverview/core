@@ -1,7 +1,7 @@
 import { globalVariable, type VariableMap } from '../variable';
 import { type ElementHandler } from '../types';
 
-const checkPropertyDefined = (varPath: string, requestVariables: VariableMap): boolean => {
+const getVariableValue = (varPath: string, requestVariables: VariableMap): any => {
     const parts = varPath.split('.');
     const varName = parts.shift()!;
     let current: any;
@@ -11,25 +11,25 @@ const checkPropertyDefined = (varPath: string, requestVariables: VariableMap): b
     } else if (globalVariable.has(varName)) {
         current = globalVariable.get(varName);
     } else {
-        return false;
+        return undefined;
     }
 
     if (typeof current === 'string') {
         try {
             current = JSON.parse(current);
         } catch (e) {
-            return parts.length === 0;
+            // Not a JSON string
         }
     }
 
     for (const part of parts) {
         if (current === null || typeof current !== 'object' || !(part in current)) {
-            return false;
+            return undefined;
         }
         current = current[part];
     }
 
-    return true;
+    return current;
 };
 
 const conditionHandler: ElementHandler = (element, requestVariables) => {
@@ -54,13 +54,45 @@ const conditionHandler: ElementHandler = (element, requestVariables) => {
         showThen = false;
     } else if (lowerCaseCondition.endsWith(' defined')) {
         const varPath = condition.slice(0, -8).trim();
-        showThen = checkPropertyDefined(varPath, requestVariables);
+        showThen = getVariableValue(varPath, requestVariables) !== undefined;
     } else if (lowerCaseCondition.endsWith(' undefined')) {
         const varPath = condition.slice(0, -10).trim();
-        showThen = !checkPropertyDefined(varPath, requestVariables);
+        showThen = getVariableValue(varPath, requestVariables) === undefined;
     } else {
-        element.outerHTML = `[SVH ERROR: condition tag \'is\' attribute must be \'true\', \'false\', \'variablename defined\', or \'variablename undefined\']`;
-        return;
+        const operators = ['==', '!=', '>=', '<=', '>', '<'];
+        let operator = '';
+        let parts: string[] = [];
+
+        for (const op of operators) {
+            if (condition.includes(op)) {
+                operator = op;
+                parts = condition.split(op).map(p => p.trim());
+                break;
+            }
+        }
+
+        if (operator && parts.length === 2) {
+            const varPath = parts[0];
+            const valueToCompare = parts[1];
+            const varValue = getVariableValue(varPath, requestVariables);
+
+            const numVarValue = varValue !== undefined ? parseFloat(varValue) : NaN;
+            const numValueToCompare = parseFloat(valueToCompare);
+
+            if (!isNaN(numVarValue) && !isNaN(numValueToCompare)) {
+                switch (operator) {
+                    case '==': showThen = numVarValue == numValueToCompare; break;
+                    case '!=': showThen = numVarValue != numValueToCompare; break;
+                    case '>': showThen = numVarValue > numValueToCompare; break;
+                    case '<': showThen = numVarValue < numValueToCompare; break;
+                    case '>=': showThen = numVarValue >= numValueToCompare; break;
+                    case '<=': showThen = numVarValue <= numValueToCompare; break;
+                }
+            }
+        } else {
+            element.outerHTML = `[SVH ERROR: Invalid condition format: ${condition}]`;
+            return;
+        }
     }
 
     if (showThen) {
@@ -69,14 +101,13 @@ const conditionHandler: ElementHandler = (element, requestVariables) => {
             finalValue = thenElem.innerHTML;
             containerTag = thenElem.getAttribute('container') || defaultContainerTag;
         } else {
-            // if no <then> is present, the content of the condition is the "then" value
             const elseElem = element.querySelector('else');
             if(elseElem){
                 elseElem.remove();
             }
             finalValue = element.innerHTML;
         }
-    } else { // condition is false, or variable is not in the right state
+    } else {
         const elseElem = element.querySelector('else');
         if (elseElem) {
             finalValue = elseElem.innerHTML;
