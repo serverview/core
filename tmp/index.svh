@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>SVH Showcase</title>
+    <title>Server View Showcase</title>
 </head>
 <body>
 
-    <h1>Welcome to the SVH Showcase!</h1>
-    <p>This page demonstrates the powerful features of Server View HTML (SVH). A server side html enhanced language for building dynamic web applications with the Server View suite.</p>
+    <h1>Welcome to the Server View Showcase!</h1>
+    <p>This page demonstrates the powerful features of Server View. A server-side system for building dynamic web applications.</p>
+
+    <hr>
+    
+    <h2>Server View HTML (SVH)</h2>
+    <p>SVH is a templating language that allows you to build dynamic web pages with simple HTML-like tags.</p>
 
     <hr>
 
-    <h2>1. Displaying System Information with <code>&lt;system&gt;</code></h2>
+    <h3>1. Displaying System Information with <code>&lt;system&gt;</code></h3>
     <p>The <code>&lt;system&gt;</code> tag is used to display built-in, static server-side information.</p>
     <p><em>Example:</em></p>
     <code>&lt;p&gt;Running on version: &lt;system get="version"&gt;&lt;/system&gt;&lt;/p&gt;</code>
@@ -19,7 +24,7 @@
     
     <hr>
 
-    <h2>2. Accessing Request Data with <code>&lt;variable&gt;</code></h2>
+    <h3>2. Accessing Request Data with <code>&lt;variable&gt;</code></h3>
     <p>The <code>&lt;variable&gt;</code> tag is used to access all dynamic data, including information from the incoming request.</p>
     <code>&lt;p&gt;URL requested: &lt;variable get="request.url"&gt;&lt;/variable&gt;&lt;/p&gt;</code>
     <p><em>Output:</em></p>
@@ -27,7 +32,7 @@
 
     <hr>
 
-    <h2>3. Conditional Rendering with <code>&lt;condition&gt;</code></h2>
+    <h3>3. Conditional Rendering with <code>&lt;condition&gt;</code></h3>
     <p>You can show or hide content based on a simple boolean value.</p>
     <p><em>Example:</em></p>
     <code>&lt;condition is="true"&gt;&lt;then&gt;This message is shown because the condition is true.&lt;/then&gt;&lt;/condition&gt;</code>
@@ -36,7 +41,7 @@
 
     <hr>
 
-    <h2>4. Including Local Files with <code>&lt;include&gt;</code></h2>
+    <h3>4. Including Local Files with <code>&lt;include&gt;</code></h3>
     <p>You can embed content from other files directly into your page. Here we are including the content of <code>include.svh</code>:</p>
     <p><em>Example:</em></p>
     <code>&lt;include src="include.svh"&gt;&lt;/include&gt;</code>
@@ -45,7 +50,7 @@
 
     <hr>
 
-    <h2>5. Fetching and Displaying Variables with <code>&lt;fetch&gt;</code> and <code>&lt;variable&gt;</code></h2>
+    <h3>5. Fetching and Displaying Variables with <code>&lt;fetch&gt;</code> and <code>&lt;variable&gt;</code></h3>
     <p>You can fetch data from a URL and store it in a user-defined variable with the <code>&lt;fetch&gt;</code> tag. You can then display the content of these variables using the <code>&lt;variable&gt;</code> tag.</p>
     <p><em>Example:</em></p>
     <code>&lt;fetch href="/example.txt" as="fileContent"&gt;&lt;/fetch&gt;</code><br>
@@ -55,8 +60,8 @@
     <p>Fetched content: <variable get="fileContent"></variable></p>
 
             <hr>
-        
-            <h2>5. Handling JSON Data</h2>
+
+            <h3>6. Handling JSON Data</h3>
             <p>You can fetch JSON data and access its properties using dot notation.</p>
             <p><em>Example:</em></p>
             <code>&lt;fetch href="/user.json" as="userData"&gt;&lt;/fetch&gt;</code><br>
@@ -70,8 +75,8 @@
             <p>User's City: <variable get="userData.address.city"></variable></p>
         
             <hr>
-        
-            <h2>6. Iterating over Data with <code>&lt;iterate&gt;</code></h2>
+
+            <h3>7. Iterating over Data with <code>&lt;iterate&gt;</code></h3>
             <p>You can loop over arrays in your data and render content for each item.</p>
             <p><em>Example:</em></p>
             <code>
@@ -113,27 +118,28 @@
                 </table>
             
                 <hr>
-            
-                                <h2>7. Advanced Conditional Rendering with `defined` and `undefined`</h2>
-                                <p>You can check if a variable has been defined, which is useful for dynamically rendering content based on fetched data or other server-side logic.</p>                <h3>Checking for a defined variable:</h3>
+
+                                <h3>8. Advanced Conditional Rendering with `defined` and `undefined`</h3>
+                                <p>You can check if a variable has been defined, which is useful for dynamically rendering content based on fetched data or other server-side logic.</p>
+                <h4>Checking for a defined variable:</h4>
                 <p><em>Example:</em></p>
                 <code>&lt;condition is="userData defined"&gt;&lt;then&gt;The variable 'userData' is defined!&lt;/then&gt;&lt;else&gt;The variable 'userData' is not defined.&lt;/else&gt;&lt;/condition&gt;</code>
                 <p><em>Output:</em></p>
                 <condition is="userData defined"><then>The variable 'userData' is defined!</then><else>The variable 'userData' is not defined.</else></condition>
             
-                <h3>Checking for an undefined variable:</h3>
+                <h4>Checking for an undefined variable:</h4>
                 <p><em>Example:</em></p>
                 <code>&lt;condition is="nonExistentVar undefined"&gt;&lt;then&gt;The variable 'nonExistentVar' is not defined, so this message is shown.&lt;/then&gt;&lt;else&gt;This will not appear.&lt;/else&gt;&lt;/condition&gt;</code>
                 <p><em>Output:</em></p>
                 <condition is="nonExistentVar undefined"><then>The variable 'nonExistentVar' is not defined, so this message is shown.</then><else>This will not appear.</else></condition>
             
-                <h3>Checking for a nested property in a JSON object:</h3>
+                <h4>Checking for a nested property in a JSON object:</h4>
                 <p><em>Example:</em></p>
                 <code>&lt;condition is="userData.address defined"&gt;&lt;then&gt;The 'userData.address' property exists.&lt;/then&gt;&lt;/condition&gt;</code>
                 <p><em>Output:</em></p>
                 <condition is="userData.address defined"><then>The 'userData.address' property exists.</then></condition>
         
-                        <h3>Checking for a non-existent nested property:</h3>
+                        <h4>Checking for a non-existent nested property:</h4>
                         <p><em>Example:</em></p>
                         <code>&lt;condition is="userData.nonexistentProperty undefined"&gt;&lt;then&gt;This message appears because 'userData.nonexistentProperty' is indeed undefined.&lt;/then&gt;&lt;/condition&gt;</code>
                         <p><em>Output:</em></p>
@@ -141,22 +147,22 @@
                 
                         <hr>
                 
-                        <h2>8. Numeric Comparisons in Conditions</h2>
+                        <h3>9. Numeric Comparisons in Conditions</h3>
                         <p>You can perform numeric comparisons in your conditions.</p>
                 
-                        <h3>Greater Than:</h3>
+                        <h4>Greater Than:</h4>
                         <p><em>Example:</em></p>
                         <code>&lt;condition is="userData.age > 18"&gt;&lt;then&gt;User is older than 18.&lt;/then&gt;&lt;/condition&gt;</code>
                         <p><em>Output:</em></p>
                         <condition is="userData.age > 18"><then>User is older than 18.</then></condition>
                 
-                        <h3>Less Than or Equal To:</h3>
+                        <h4>Less Than or Equal To:</h4>
                         <p><em>Example:</em></p>
                         <code>&lt;condition is="userData.age <= 30"&gt;&lt;then&gt;User is 30 or younger.&lt;/then&gt;&lt;/condition&gt;</code>
                         <p><em>Output:</em></p>
                         <condition is="userData.age <= 30"><then>User is 30 or younger.</then></condition>
                 
-                                <h3>Equality:</h3>
+                                <h4>Equality:</h4>
                 
                                 <p><em>Example:</em></p>
                 
@@ -168,7 +174,7 @@
                 
                         
                 
-                                <h3>False Conditions:</h3>
+                                <h4>False Conditions:</h4>
                 
                                 <p><em>Example (userData.age > 40):</em></p>
                 
@@ -218,7 +224,7 @@
                 
                         
                 
-                                        <h2>9. String Comparisons in Conditions</h2>
+                                        <h3>10. String Comparisons in Conditions</h3>
                 
                         
                 
@@ -230,7 +236,7 @@
                 
                         
                 
-                                        <h3>Equality:</h3>
+                                        <h4>Equality:</h4>
                 
                         
                 
@@ -254,7 +260,7 @@
                 
                         
                 
-                                        <h3>Inequality:</h3>
+                                        <h4>Inequality:</h4>
                 
                         
                 
@@ -278,7 +284,7 @@
                 
                         
                 
-                                        <h3>False Condition:</h3>
+                                        <h4>False Condition:</h4>
                 
                         
                 
@@ -310,7 +316,7 @@
                 
                         
                 
-                                                <h2>10. Contains Operator in Conditions</h2>
+                                                <h3>11. Contains Operator in Conditions</h3>
                 
                         
                 
@@ -322,7 +328,7 @@
                 
                         
                 
-                                                <h3>String Contains:</h3>
+                                                <h4>String Contains:</h4>
                 
                         
                 
@@ -346,7 +352,7 @@
                 
                         
                 
-                                                        <h3>Array Contains:</h3>
+                                                        <h4>Array Contains:</h4>
                 
                         
                 
@@ -386,7 +392,7 @@
                 
                         
                 
-                                                <h3>False Condition:</h3>
+                                                <h4>False Condition:</h4>
                 
                         
                 
