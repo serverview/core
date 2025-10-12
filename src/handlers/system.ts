@@ -13,13 +13,9 @@ const systemHandler: ElementHandler = (element, requestVariables) => {
         let finalValue: any;
 
         let baseValue: any;
-        if (requestVariables.has(varName)) {
-            baseValue = requestVariables.get(varName);
-        } else {
-            const handler = systemVariables.get(varName);
-            if (handler) {
-                baseValue = handler();
-            }
+        const handler = systemVariables.get(varName);
+        if (handler) {
+            baseValue = handler();
         }
 
         if (typeof baseValue === 'string') {

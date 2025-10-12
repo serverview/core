@@ -10,20 +10,24 @@
 
     <hr>
 
-    <h2>1. Displaying System & Request Information with <code>&lt;system&gt;</code></h2>
-    <p>You can easily display server-side information, like the current version of this application or details about the incoming request.</p>
+    <h2>1. Displaying System Information with <code>&lt;system&gt;</code></h2>
+    <p>The <code>&lt;system&gt;</code> tag is used to display built-in, static server-side information.</p>
     <p><em>Example:</em></p>
     <code>&lt;p&gt;Running on version: &lt;system get="version"&gt;&lt;/system&gt;&lt;/p&gt;</code>
     <p><em>Output:</em></p>
     <p>Running on version: <system get="version"></system></p>
-    <br>
-    <code>&lt;p&gt;URL requested: &lt;system get="request.url"&gt;&lt;/system&gt;&lt;/p&gt;</code>
+    
+    <hr>
+
+    <h2>2. Accessing Request Data with <code>&lt;variable&gt;</code></h2>
+    <p>The <code>&lt;variable&gt;</code> tag is used to access all dynamic data, including information from the incoming request.</p>
+    <code>&lt;p&gt;URL requested: &lt;variable get="request.url"&gt;&lt;/variable&gt;&lt;/p&gt;</code>
     <p><em>Output:</em></p>
-    <p>URL requested: <system get="request.url"></system></p>
+    <p>URL requested: <variable get="request.url"></variable></p>
 
     <hr>
 
-    <h2>2. Conditional Rendering with <code>&lt;condition&gt;</code></h2>
+    <h2>3. Conditional Rendering with <code>&lt;condition&gt;</code></h2>
     <p>You can show or hide content based on a simple boolean value.</p>
     <p><em>Example:</em></p>
     <code>&lt;condition is="true"&gt;&lt;then&gt;This message is shown because the condition is true.&lt;/then&gt;&lt;/condition&gt;</code>
@@ -32,7 +36,7 @@
 
     <hr>
 
-    <h2>3. Including Local Files with <code>&lt;include&gt;</code></h2>
+    <h2>4. Including Local Files with <code>&lt;include&gt;</code></h2>
     <p>You can embed content from other files directly into your page. Here we are including the content of <code>include.svh</code>:</p>
     <p><em>Example:</em></p>
     <code>&lt;include src="include.svh"&gt;&lt;/include&gt;</code>
@@ -41,8 +45,8 @@
 
     <hr>
 
-    <h2>4. Fetching Remote Data with <code>&lt;fetch&gt;</code> and <code>&lt;variable&gt;</code></h2>
-    <p>You can fetch data from a URL and display it anywhere on your page. Here we fetch <code>example.txt</code> and display its content.</p>
+    <h2>5. Fetching and Displaying Variables with <code>&lt;fetch&gt;</code> and <code>&lt;variable&gt;</code></h2>
+    <p>You can fetch data from a URL and store it in a user-defined variable with the <code>&lt;fetch&gt;</code> tag. You can then display the content of these variables using the <code>&lt;variable&gt;</code> tag.</p>
     <p><em>Example:</em></p>
     <code>&lt;fetch href="/example.txt" as="fileContent"&gt;&lt;/fetch&gt;</code><br>
     <code>&lt;p&gt;Fetched content: &lt;variable get="fileContent"&gt;&lt;/variable&gt;&lt;/p&gt;</code>
