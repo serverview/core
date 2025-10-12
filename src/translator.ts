@@ -12,13 +12,18 @@ export async function translateDocument(document: Document, requestVariables: Va
     let changed = true;
     while (changed) {
         changed = false;
-        for (const [tagName, handler] of elementHandlers.entries()) {
-            const elements = document.querySelectorAll(tagName);
-            if (elements.length > 0) {
+        const elements = document.querySelectorAll('*');
+        for (const element of Array.from(elements)) {
+            // The element might have been removed by a previous handler
+            if (!document.contains(element)) {
+                continue;
+            }
+            const handler = elementHandlers.get(element.tagName.toLowerCase());
+            if (handler) {
+                await handler(element, requestVariables);
                 changed = true;
-                for (const element of Array.from(elements)) {
-                    await handler(element, requestVariables);
-                }
+                // Since the DOM has changed, we need to restart the loop
+                break; 
             }
         }
     }
