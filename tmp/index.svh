@@ -413,8 +413,28 @@
                         
                 
                                             
-                
+
                         
-                
+
+                                                <hr>
+
+                        
+
+                                                <h3>12. Setting Variables with <code>&lt;set&gt;</code></h3>
+
+                                                <p>You can define a variable directly in your SVH file using the <code>&lt;set&gt;</code> tag. This is useful for creating reusable values or for improving readability.</p>
+
+                                                <p><em>Example:</em></p>
+
+                                                <code>&lt;set as="greeting" value="Hello, World!"&gt;&lt;/set&gt;</code><br>
+
+                                                <code>&lt;p&gt;&lt;variable get="greeting"&gt;&lt;/variable&gt;&lt;/p&gt;</code>
+
+                                                <p><em>Output:</em></p>
+
+                                                <set as="greeting" value="Hello, World!"></set>
+
+                                                <p><variable get="greeting"></variable></p>
+
                                             </body>        </html>
         
