@@ -436,5 +436,31 @@
 
                                                 <p><variable get="greeting"></variable></p>
 
+                                                <hr>
+
+                                                <h3>13. Getting the Length of a Variable</h3>
+
+                                                <p>You can get the length of a string or an array using the <code>:length</code> syntax in the <code>get</code> attribute of the <code>&lt;variable&gt;</code> tag.</p>
+
+                                                <h4>String Length:</h4>
+
+                                                <p><em>Example:</em></p>
+
+                                                <code>&lt;p&gt;The length of the greeting is: &lt;variable get="greeting:length"&gt;&lt;/variable&gt;&lt;/p&gt;</code>
+
+                                                <p><em>Output:</em></p>
+
+                                                <p>The length of the greeting is: <variable get="greeting:length"></variable></p>
+
+                                                <h4>Array Length:</h4>
+
+                                                <p><em>Example:</em></p>
+
+                                                <code>&lt;p&gt;Number of courses: &lt;variable get="userData.courses:length"&gt;&lt;/variable&gt;&lt;/p&gt;</code>
+
+                                                <p><em>Output:</em></p>
+
+                                                <p>Number of courses: <variable get="userData.courses:length"></variable></p>
+
                                             </body>        </html>
         

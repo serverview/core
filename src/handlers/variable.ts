@@ -1,9 +1,18 @@
-import { VariableMap, globalVariable } from '../variable';
-import { ElementHandler } from '../types';
+import { globalVariable } from '../variable';
+import { type ElementHandler } from '../types';
 
 const variableHandler: ElementHandler = (element, requestVariables) => {
-    const path = element.getAttribute('get');
-    if (path) {
+    const getAttr = element.getAttribute('get');
+    if (getAttr) {
+        let path = getAttr;
+        let operation: string | null = null;
+
+        if (path.includes(':')) {
+            const parts = path.split(':');
+            path = parts[0]!;
+            operation = parts[1]!;
+        }
+
         const parts = path.split('.');
         const varName = parts.shift()!;
         let finalValue: any;
@@ -38,6 +47,18 @@ const variableHandler: ElementHandler = (element, requestVariables) => {
             finalValue = baseValue;
         }
 
+        if (operation) {
+            if (operation === 'length') {
+                if (Array.isArray(finalValue) || typeof finalValue === 'string') {
+                    finalValue = finalValue.length;
+                } else {
+                    finalValue = `[SVH ERROR: 'length' operation can only be used on arrays and strings]`;
+                }
+            } else {
+                finalValue = `[SVH ERROR: Unknown operation '${operation}']`;
+            }
+        }
+
         if (typeof finalValue === 'object') {
             finalValue = JSON.stringify(finalValue);
         }
@@ -46,7 +67,7 @@ const variableHandler: ElementHandler = (element, requestVariables) => {
             finalValue = `[SVH KEY '${path}' NOT FOUND]`;
         }
 
-        element.outerHTML = `<span svd-view="variable" svd-key="${path}">${finalValue}</span>`;
+        element.outerHTML = `<span svd-view="variable" svd-key="${getAttr}">${finalValue}</span>`;
     } else {
         element.outerHTML = '[SVH ERROR: variable tag missing "get" attribute]';
     }
