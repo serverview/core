@@ -1,4 +1,4 @@
-import { SV_VERSION } from '../config';
+import { SV_VERSION } from '../../config';
 import type { VariableMap } from '../variable';
 import { ElementHandler } from '../types';
 

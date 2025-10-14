@@ -3,8 +3,8 @@ import { serve } from 'bun';
 import { parseHTML } from 'linkedom';
 import path from 'path';
 import { PORT, BASE_PATH, INDEX_FILES } from './config';
-import { translateDocument } from './translator';
-import { initializeRequestVariables } from './variable';
+import { translateDocument } from './lib/translator';
+import { initializeRequestVariables } from './lib/variable';
 
 // Start the Bun Server
 export function startServer() {

@@ -2,6 +2,8 @@
 import { elementHandlers } from "./handlers";
 import { VariableMap } from "./variable";
 
+const handlerTags = Array.from(elementHandlers.keys()).join(',');
+
 /**
  * The core translation logic: finds custom elements and replaces them.
  * This function loops until no more custom elements are found, allowing for nested elements.
@@ -19,7 +21,7 @@ export async function translateDocument(document: Document, requestVariables: Va
             let changedInPriority = true;
             while (changedInPriority) {
                 changedInPriority = false;
-                const elements = document.querySelectorAll('*');
+                const elements = document.querySelectorAll(handlerTags);
                 
                 for (const element of Array.from(elements)) {
                     if (!document.contains(element)) {
