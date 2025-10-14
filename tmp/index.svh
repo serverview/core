@@ -33,12 +33,76 @@
     <hr>
 
     <h3>3. Conditional Rendering with <code>&lt;condition&gt;</code></h3>
-    <p>You can show or hide content based on a simple boolean value.</p>
+    <p>The <code>&lt;condition&gt;</code> tag allows you to conditionally render content based on a wide range of expressions.</p>
+
+    <h4>Basic Booleans</h4>
+    <p>You can use simple <code>true</code> or <code>false</code> values.</p>
     <p><em>Example:</em></p>
     <code>&lt;condition is="true"&gt;&lt;then&gt;This message is shown because the condition is true.&lt;/then&gt;&lt;/condition&gt;</code>
     <p><em>Output:</em></p>
     <condition is="true"><then>This message is shown because the condition is true.</then></condition>
 
+    <h4><code>defined</code> and <code>undefined</code></h4>
+    <p>Check if a variable exists.</p>
+    <p><em>Example:</em></p>
+    <code>&lt;condition is="userData defined"&gt;&lt;then&gt;The 'userData' variable is defined.&lt;/then&gt;&lt;/condition&gt;</code>
+    <p><em>Output:</em></p>
+    <condition is="userData defined"><then>The 'userData' variable is defined.</then></condition>
+
+    <h4>Numeric Comparisons</h4>
+    <p>Perform comparisons on numeric values.</p>
+    <ul>
+        <li><code>==</code> (equal)</li>
+        <li><code>!=</code> (not equal)</li>
+        <li><code>&gt;</code> (greater than)</li>
+        <li><code>&lt;</code> (less than)</li>
+        <li><code>&gt;=</code> (greater than or equal to)</li>
+        <li><code>&lt;=</code> (less than or equal to)</li>
+    </ul>
+    <p><em>Example:</em></p>
+    <code>&lt;condition is="userData.age &gt;= 18"&gt;&lt;then&gt;User is an adult.&lt;/then&gt;&lt;/condition&gt;</code>
+    <p><em>Output:</em></p>
+    <condition is="userData.age >= 18"><then>User is an adult.</then></condition>
+
+    <h4>String Comparisons</h4>
+    <p>Perform comparisons on string values. Remember to use single quotes for literal strings.</p>
+    <p><em>Example:</em></p>
+    <code>&lt;condition is="userData.name == 'John Doe'"&gt;&lt;then&gt;The user's name is John Doe.&lt;/then&gt;&lt;/condition&gt;</code>
+    <p><em>Output:</em></p>
+    <condition is="userData.name == 'John Doe'"><then>The user's name is John Doe.</then></condition>
+
+    <h4><code>contains</code> Operator</h4>
+    <p>Check if a string contains a substring or an array contains an element.</p>
+    <p><em>String Example:</em></p>
+    <code>&lt;condition is="userData.name contains 'Doe'"&gt;&lt;then&gt;Name contains 'Doe'.&lt;/then&gt;&lt;/condition&gt;</code>
+    <p><em>Output:</em></p>
+    <condition is="userData.name contains 'Doe'"><then>Name contains 'Doe'.</then></condition>
+    <p><em>Array Example:</em></p>
+    <code>&lt;condition is="userData.courses.title contains 'Math'"&gt;&lt;then&gt;User is enrolled in a Math course.&lt;/then&gt;&lt;/condition&gt;</code>
+    <p><em>Output:</em></p>
+    <condition is="userData.courses.title contains 'Math'"><then>User is enrolled in a Math course.</then></condition>
+
+    <h4>Logical Operators: <code>and</code>, <code>or</code>, <code>not</code></h4>
+    <p>Combine multiple conditions together.</p>
+    <p><em><code>and</code> Example:</em></p>
+    <code>&lt;condition is="userData.age &gt; 18 and userData.address.city == 'New York'"&gt;&lt;then&gt;User is an adult living in New York.&lt;/then&gt;&lt;/condition&gt;</code>
+    <p><em>Output:</em></p>
+    <condition is="userData.age > 18 and userData.address.city == 'New York'"><then>User is an adult living in New York.</then></condition>
+    <p><em><code>or</code> Example:</em></p>
+    <code>&lt;condition is="userData.courses.title contains 'Science' or userData.courses.title contains 'Math'"&gt;&lt;then&gt;User is taking a STEM course.&lt;/then&gt;&lt;/condition&gt;</code>
+    <p><em>Output:</em></p>
+    <condition is="userData.courses.title contains 'Science' or userData.courses.title contains 'Math'"><then>User is taking a STEM course.</then></condition>
+    <p><em><code>not</code> Example:</em></p>
+    <code>&lt;condition is="not userData.isAdmin"&gt;&lt;then&gt;User is not an admin.&lt;/then&gt;&lt;/condition&gt;</code>
+    <p><em>Output:</em></p>
+    <condition is="not userData.isAdmin"><then>User is not an admin.</then></condition>
+
+    <h4>Grouping with Parentheses</h4>
+    <p>Use parentheses to group expressions and control the order of evaluation.</p>
+    <p><em>Example:</em></p>
+    <code>&lt;condition is="(userData.age &gt; 18 and userData.age &lt; 65) and not userData.isStudent"&gt;&lt;then&gt;User is a working-age adult and not a student.&lt;/then&gt;&lt;/condition&gt;</code>
+    <p><em>Output:</em></p>
+    <condition is="(userData.age > 18 and userData.age < 65) and not userData.isStudent"><then>User is a working-age adult and not a student.</then></condition>
     <hr>
 
     <h3>4. Including Local Files with <code>&lt;include&gt;</code></h3>

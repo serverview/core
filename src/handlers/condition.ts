@@ -1,42 +1,89 @@
-import { globalVariable, type VariableMap } from '../variable';
+import { globalVariable, type VariableMap, getVariableValue } from '../variable';
 import { type ElementHandler } from '../types';
 
-const getVariableValue = (varPath: string, requestVariables: VariableMap): any => {
-    const parts = varPath.split('.');
-    const varName = parts.shift()!;
-    let current: any;
+// --- Expression Evaluation ---
 
-    if (requestVariables.has(varName)) {
-        current = requestVariables.get(varName);
-    } else if (globalVariable.has(varName)) {
-        current = globalVariable.get(varName);
-    } else {
-        return undefined;
-    }
+function evaluate(expression: string, requestVariables: VariableMap): boolean {
+    expression = expression.trim();
 
-    if (typeof current === 'string') {
-        try {
-            current = JSON.parse(current);
-        } catch (e) {
-            // Not a JSON string
+    // Handle parentheses by finding matching pairs
+    let depth = 0;
+    for (let i = expression.length - 1; i >= 0; i--) {
+        if (expression[i] === ')') depth++;
+        if (expression[i] === '(') depth--;
+        if (depth === 0 && i > 0 && expression[i - 1] === ' ') {
+            if (expression.substring(i).startsWith('or ')) {
+                const left = expression.substring(0, i - 1);
+                const right = expression.substring(i + 2);
+                return evaluate(left, requestVariables) || evaluate(right, requestVariables);
+            }
+            if (expression.substring(i).startsWith('and ')) {
+                const left = expression.substring(0, i - 1);
+                const right = expression.substring(i + 3);
+                return evaluate(left, requestVariables) && evaluate(right, requestVariables);
+            }
         }
     }
 
-    for (const part of parts) {
-        if (current === null || current === undefined) {
-            return undefined;
-        }
-        if (Array.isArray(current)) {
-            current = current.map(item => item[part]);
-        } else if (typeof current === 'object' && part in current) {
-            current = current[part];
-        } else {
-            return undefined;
-        }
+    // Base cases
+    if (expression.startsWith('(') && expression.endsWith(')')) {
+        return evaluate(expression.slice(1, -1), requestVariables);
+    }
+    if (expression.startsWith('not ')) {
+        return !evaluate(expression.slice(4), requestVariables);
     }
 
-    return current;
-};
+    return evaluateSimpleCondition(expression, requestVariables);
+}
+
+function evaluateSimpleCondition(condition: string, requestVariables: VariableMap): boolean {
+    if (condition === 'true') return true;
+    if (condition === 'false') return false;
+
+    if (condition.endsWith(' defined')) {
+        return getVariableValue(condition.slice(0, -8).trim(), requestVariables) !== undefined;
+    }
+    if (condition.endsWith(' undefined')) {
+        return getVariableValue(condition.slice(0, -10).trim(), requestVariables) === undefined;
+    }
+
+    const operators = ['==', '!=', '>=', '<=', '>', '<', 'contains'];
+    for (const op of operators) {
+        const parts = condition.split(new RegExp(`\\s+${op}\\s+`));
+        if (parts.length === 2) {
+            const varPath = parts[0]!.trim();
+            const literal = parts[1]!.trim();
+            const varValue = getVariableValue(varPath, requestVariables);
+
+            if (op === 'contains') {
+                const valueToFind = literal.startsWith('\'') ? literal.slice(1, -1) : literal;
+                if (Array.isArray(varValue)) return varValue.includes(valueToFind);
+                if (typeof varValue === 'string') return varValue.includes(valueToFind);
+                return false;
+            }
+
+            if (literal.startsWith('\'')) { // String comparison
+                const strLiteral = literal.slice(1, -1);
+                const strVar = String(varValue ?? '');
+                if (op === '==') return strVar === strLiteral;
+                if (op === '!=') return strVar !== strLiteral;
+            } else { // Numeric comparison
+                const numVar = parseFloat(varValue);
+                const numLiteral = parseFloat(literal);
+                if (isNaN(numVar) || isNaN(numLiteral)) continue;
+                if (op === '==') return numVar === numLiteral;
+                if (op === '!=') return numVar !== numLiteral;
+                if (op === '>') return numVar > numLiteral;
+                if (op === '<') return numVar < numLiteral;
+                if (op === '>=') return numVar >= numLiteral;
+                if (op === '<=') return numVar <= numLiteral;
+            }
+        }
+    }
+    return false;
+}
+
+// --- Main Handler ---
 
 const conditionHandler: ElementHandler = (element, requestVariables) => {
     const isAttr = element.getAttribute('is');
@@ -44,84 +91,18 @@ const conditionHandler: ElementHandler = (element, requestVariables) => {
         element.outerHTML = '[SVH ERROR: condition tag missing "is" attribute]';
         return;
     }
-    const condition = isAttr.trim();
-    const lowerCaseCondition = condition.toLowerCase();
 
-    // Get container tag, default to 'div'
-    const defaultContainerTag = element.getAttribute('container') || 'div';
-
-    let finalValue: string = '';
-    let containerTag = defaultContainerTag;
-    let showThen: boolean = false;
-
-    if (lowerCaseCondition === 'true') {
-        showThen = true;
-    } else if (lowerCaseCondition === 'false') {
-        showThen = false;
-    } else if (lowerCaseCondition.endsWith(' defined')) {
-        const varPath = condition.slice(0, -8).trim();
-        showThen = getVariableValue(varPath, requestVariables) !== undefined;
-    } else if (lowerCaseCondition.endsWith(' undefined')) {
-        const varPath = condition.slice(0, -10).trim();
-        showThen = getVariableValue(varPath, requestVariables) === undefined;
-    } else {
-        const operators = ['==', '!=', '>=', '<=', '>', '<', 'contains'];
-        let operator = '';
-        let parts: string[] = [];
-
-        for (const op of operators) {
-            if (condition.includes(op)) {
-                operator = op;
-                parts = condition.split(op).map(p => p.trim());
-                break;
-            }
-        }
-
-        if (operator && parts.length === 2) {
-            const varPath = parts[0]!;
-            const valueToCompare = parts[1]!;
-            const varValue = getVariableValue(varPath, requestVariables);
-
-            if (varValue === undefined) {
-                showThen = false;
-            } else if (operator === 'contains') {
-                if (typeof varValue === 'string') {
-                    const strValueToCompare = valueToCompare.slice(1, -1);
-                    showThen = varValue.includes(strValueToCompare);
-                } else if (Array.isArray(varValue)) {
-                    const val = valueToCompare.slice(1, -1);
-                    showThen = varValue.includes(val);
-                }
-            } else if (valueToCompare.startsWith('\'') && valueToCompare.endsWith('\'')) {
-                const strValueToCompare = valueToCompare.slice(1, -1);
-                const strVarValue = String(varValue);
-                switch (operator) {
-                    case '==': showThen = strVarValue == strValueToCompare; break;
-                    case '!=': showThen = strVarValue != strValueToCompare; break;
-                    default: 
-                        element.outerHTML = `[SVH ERROR: Invalid operator for string comparison: ${operator}]`;
-                        return;
-                }
-            } else {
-                const numVarValue = parseFloat(String(varValue!));
-                const numValueToCompare = parseFloat(valueToCompare);
-
-                if (!isNaN(numVarValue) && !isNaN(numValueToCompare)) {
-                    switch (operator) {
-                        case '==': showThen = numVarValue == numValueToCompare; break;
-                        case '!=': showThen = numVarValue != numValueToCompare; break;
-                        case '>': showThen = numVarValue > numValueToCompare; break;
-                        case '<': showThen = numVarValue < numValueToCompare; break;
-                        case '>=': showThen = numVarValue >= numValueToCompare; break;
-                        case '<=': showThen = numVarValue <= numValueToCompare; break;
-                    }
-                }
-            }
-        } else {
-            element.outerHTML = `[SVH ERROR: Invalid condition format: ${condition}]`;
-            return;
-        }
+    let showThen = false;
+    try {
+        showThen = evaluate(isAttr, requestVariables);
+    } catch (e) {
+        element.outerHTML = `[SVH ERROR: Invalid condition: ${(e as Error).message}]`;
+        return;
     }
+
+    const defaultContainerTag = element.getAttribute('container') || 'div';
+    let finalValue = '';
+    let containerTag = defaultContainerTag;
 
     if (showThen) {
         const thenElem = element.querySelector('then');
@@ -130,9 +111,7 @@ const conditionHandler: ElementHandler = (element, requestVariables) => {
             containerTag = thenElem.getAttribute('container') || defaultContainerTag;
         } else {
             const elseElem = element.querySelector('else');
-            if(elseElem){
-                elseElem.remove();
-            }
+            if (elseElem) elseElem.remove();
             finalValue = element.innerHTML;
         }
     } else {
@@ -142,7 +121,8 @@ const conditionHandler: ElementHandler = (element, requestVariables) => {
             containerTag = elseElem.getAttribute('container') || defaultContainerTag;
         }
     }
-    element.outerHTML = `<${containerTag} svd-condition="${condition}">${finalValue}</${containerTag}>`;
+
+    element.outerHTML = `<${containerTag} svd-condition="${isAttr}">${finalValue}</${containerTag}>`;
 };
 
 export default conditionHandler;
