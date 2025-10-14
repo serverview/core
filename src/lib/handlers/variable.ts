@@ -2,6 +2,7 @@ import { getVariableValue } from '../variable';
 import { type ElementHandler } from '../types';
 
 const variableHandler: ElementHandler = (element, requestVariables) => {
+    const defaultValue = element.getAttribute('default');
     const getAttr = element.getAttribute('get');
     if (getAttr) {
         let finalValue = getVariableValue(getAttr, requestVariables);
@@ -10,8 +11,8 @@ const variableHandler: ElementHandler = (element, requestVariables) => {
             finalValue = JSON.stringify(finalValue);
         }
 
-        if (finalValue === undefined) {
-            finalValue = `[SVH KEY '${getAttr}' NOT FOUND]`;
+        if ((finalValue === undefined || finalValue === null || finalValue === `[SVH ERROR: Variable '${getAttr}' NOT FOUND]`) && defaultValue !== null) {
+            finalValue = defaultValue;
         }
 
         element.outerHTML = `<span svd-view="variable" svd-key="${getAttr}">${finalValue}</span>`;

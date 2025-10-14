@@ -30,6 +30,12 @@
     <p><em>Output:</em></p>
     <p>URL requested: <variable get="request.url"></variable></p>
 
+    <h4>Default Values</h4>
+    <p>You can provide a default value for a variable if it is not defined.</p>
+    <code>&lt;p&gt;User greeting: &lt;variable get="user.greeting" default="Hello, Guest!"&gt;&lt;/variable&gt;&lt;/p&gt;</code>
+    <p><em>Output:</em></p>
+    <p>User greeting: <variable get="user.greeting" default="Hello, Guest!"></variable></p>
+
     <hr>
 
     <h3>3. Conditional Rendering with <code>&lt;condition&gt;</code></h3>
