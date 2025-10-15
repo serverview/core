@@ -62,6 +62,18 @@ export function getVariableValue(path: string, requestVariables: VariableMap): a
             } else {
                 return `[SVH ERROR: 'length' operation can only be used on arrays and strings]`;
             }
+        } else if (operation === 'toUpperCase') {
+            if (typeof current === 'string') {
+                return current.toUpperCase();
+            } else {
+                return `[SVH ERROR: 'toUpperCase' operation can only be used on strings]`;
+            }
+        } else if (operation === 'toLowerCase') {
+            if (typeof current === 'string') {
+                return current.toLowerCase();
+            } else {
+                return `[SVH ERROR: 'toLowerCase' operation can only be used on strings]`;
+            }
         } else {
             return `[SVH ERROR: Unknown operation '${operation}']`;
         }

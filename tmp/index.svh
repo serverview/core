@@ -51,6 +51,43 @@
   <p>User greeting: <variable get="user.greeting" default="Hello, Guest!"></variable>
   </p>
 
+  <h4>Variable Operations</h4>
+  <p>You can perform operations on variables to transform their values.</p>
+
+  <h5>Getting the Length of a Variable</h5>
+  <p>You can get the length of a string or an array using the <code>:length</code> syntax in the <code>get</code> attribute of the <code>&lt;variable&gt;</code> tag.</p>
+
+  <h6>String Length:</h6>
+  <p><em>Example:</em></p>
+  <code>&lt;p&gt;The length of the greeting is: &lt;variable get="greeting:length"&gt;&lt;/variable&gt;&lt;/p&gt;</code>
+  <p><em>Output:</em></p>
+  <p>The length of the greeting is: <variable get="greeting:length"></variable>
+  </p>
+
+  <h6>Array Length:</h6>
+  <p><em>Example:</em></p>
+  <code>&lt;p&gt;Number of courses: &lt;variable get="userData.courses:length"&gt;&lt;/variable&gt;&lt;/p&gt;</code>
+  <p><em>Output:</em></p>
+  <p>Number of courses: <variable get="userData.courses:length"></variable>
+  </p>
+
+  <h5>Changing Variable Case</h5>
+  <p>You can change the case of a string variable using the <code>:toUpperCase</code> and <code>:toLowerCase</code> syntax.</p>
+
+  <h6>To Upper Case:</h6>
+  <p><em>Example:</em></p>
+  <code>&lt;p&gt;User name in upper case: &lt;variable get="userData.name:toUpperCase"&gt;&lt;/variable&gt;&lt;/p&gt;</code>
+  <p><em>Output:</em></p>
+  <p>User name in upper case: <variable get="userData.name:toUpperCase"></variable>
+  </p>
+
+  <h6>To Lower Case:</h6>
+  <p><em>Example:</em></p>
+  <code>&lt;p&gt;User name in lower case: &lt;variable get="userData.name:toLowerCase"&gt;&lt;/variable&gt;&lt;/p&gt;</code>
+  <p><em>Output:</em></p>
+  <p>User name in lower case: <variable get="userData.name:toLowerCase"></variable>
+  </p>
+
   <hr>
 
   <h3>3. Conditional Rendering with <code>&lt;condition&gt;</code></h3>
@@ -555,38 +592,10 @@
     <variable get="greeting"></variable>
   </p>
 
-  <hr>
-
-  <h3>13. Getting the Length of a Variable</h3>
-
-  <p>You can get the length of a string or an array using the <code>:length</code> syntax in the <code>get</code>
-    attribute of the <code>&lt;variable&gt;</code> tag.</p>
-
-  <h4>String Length:</h4>
-
-  <p><em>Example:</em></p>
-
-  <code>&lt;p&gt;The length of the greeting is: &lt;variable get="greeting:length"&gt;&lt;/variable&gt;&lt;/p&gt;</code>
-
-  <p><em>Output:</em></p>
-
-  <p>The length of the greeting is: <variable get="greeting:length"></variable>
-  </p>
-
-  <h4>Array Length:</h4>
-
-  <p><em>Example:</em></p>
-
-  <code>&lt;p&gt;Number of courses: &lt;variable get="userData.courses:length"&gt;&lt;/variable&gt;&lt;/p&gt;</code>
-
-  <p><em>Output:</em></p>
-
-  <p>Number of courses: <variable get="userData.courses:length"></variable>
-  </p>
 
   <hr>
 
-  <h3>14. Defining Macros with <code>&lt;define&gt;</code></h3>
+  <h3>13. Defining Macros with <code>&lt;define&gt;</code></h3>
   <p>You can define reusable blocks of content as macros using the <code>&lt;define&gt;</code> tag. Macros can accept
     parameters.</p>
   <p><em>Example:</em></p>
@@ -604,7 +613,7 @@
 
   <hr>
 
-  <h3>15. Calling Macros with <code>&lt;call&gt;</code></h3>
+  <h3>14. Calling Macros with <code>&lt;call&gt;</code></h3>
   <p>Once defined, you can call a macro using the <code>&lt;call&gt;</code> tag and pass parameters using the
     <code>with</code> attribute (as a JavaScript object literal).</p>
   <p><em>Example:</em></p>
