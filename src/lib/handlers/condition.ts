@@ -41,10 +41,12 @@ function evaluateSimpleCondition(condition: string, requestVariables: VariableMa
     if (condition === 'false') return false;
 
     if (condition.endsWith(' defined')) {
-        return getVariableValue(condition.slice(0, -8).trim(), requestVariables) !== undefined;
+        const value = getVariableValue(condition.slice(0, -8).trim(), requestVariables);
+        return value !== undefined && (typeof value !== 'string' || !value.startsWith('[SVH ERROR'));
     }
     if (condition.endsWith(' undefined')) {
-        return getVariableValue(condition.slice(0, -10).trim(), requestVariables) === undefined;
+        const value = getVariableValue(condition.slice(0, -10).trim(), requestVariables);
+        return value === undefined || (typeof value === 'string' && value.startsWith('[SVH ERROR'));
     }
 
     const operators = ['==', '!=', '>=', '<=', '>', '<', 'contains'];
