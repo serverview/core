@@ -58,7 +58,12 @@ function evaluateSimpleCondition(condition: string, requestVariables: VariableMa
             const varValue = getVariableValue(varPath, requestVariables);
 
             if (op === 'contains') {
-                const valueToFind = literal.startsWith('\'') ? literal.slice(1, -1) : literal;
+                let valueToFind;
+                if (literal.startsWith('\'')) {
+                    valueToFind = literal.slice(1, -1);
+                } else {
+                    valueToFind = getVariableValue(literal, requestVariables);
+                }
                 if (Array.isArray(varValue)) return varValue.includes(valueToFind);
                 if (typeof varValue === 'string') return varValue.includes(valueToFind);
                 return false;
@@ -71,7 +76,10 @@ function evaluateSimpleCondition(condition: string, requestVariables: VariableMa
                 if (op === '!=') return strVar !== strLiteral;
             } else { // Numeric comparison
                 const numVar = parseFloat(varValue);
-                const numLiteral = parseFloat(literal);
+                let numLiteral = parseFloat(literal);
+                if (isNaN(numLiteral)) {
+                    numLiteral = parseFloat(getVariableValue(literal, requestVariables));
+                }
                 if (isNaN(numVar) || isNaN(numLiteral)) continue;
                 if (op === '==') return numVar === numLiteral;
                 if (op === '!=') return numVar !== numLiteral;
