@@ -6,8 +6,15 @@ import { translateDocument } from "../translator";
 
 // Parser for JavaScript object literal-like strings
 function parseObjectLiteral(str: string): { [key: string]: any } {
+    let processedStr = str.trim();
+    if (!processedStr.startsWith('{')) {
+        processedStr = '{' + processedStr;
+    }
+    if (!processedStr.endsWith('}')) {
+        processedStr = processedStr + '}';
+    }
     // Add quotes to keys
-    let jsonString = str.replace(/([{,])\s*([a-zA-Z0-9_]+)\s*:/g, '$1"$2":');
+    let jsonString = processedStr.replace(/([{,])\s*([a-zA-Z0-9_]+)\s*:/g, '$1"$2":');
     // Replace single quotes with double quotes
     jsonString = jsonString.replace(/'/g, '"');
     return JSON.parse(jsonString);

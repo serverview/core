@@ -54,10 +54,10 @@
   <h4>Sanitizing HTML</h4>
   <p>You can sanitize a variable to prevent XSS attacks by stripping HTML tags from the output. Use the <code>sanitize="html"</code> attribute.</p>
 
-  <code>&lt;p&gt;User comment: &lt;variable get="user.comment" sanitize="html"&gt;&lt;/variable&gt;&lt;/p&gt;</code>
+  <code>&lt;p&gt;User comment: &lt;variable get="user.comment" sanitize="html" default="&lt;b&gt;Hello&lt;/b&gt;"&gt;&lt;/variable&gt;&lt;/p&gt;</code>
 
   <p><em>Output:</em></p>
-  <p>User comment: <variable get="user.comment" sanitize="html"></variable>
+  <p>User comment: <variable get="user.comment" sanitize="html" default="&lt;b&gt;Hello&lt;/b&gt;"></variable>
   </p>
 
   <h4>Variable Operations</h4>
@@ -628,11 +628,11 @@
   <p><em>Example:</em></p>
   <code>
                                                 <pre>
-&lt;call name="greetUser" with="userName:'Alice', city:'Wonderland'}"&gt;&lt;/call&gt;
+&lt;call name="greetUser" with="{userName:'Alice', city:'Wonderland'}"&gt;&lt;/call&gt;
                                                 </pre>
                                                 </code>
   <p><em>Output:</em></p>
-  <call name="greetUser" with="userName:'Alice', city:'Wonderland'"></call>
+  <call name="greetUser" with="{userName:'Alice', city:'Wonderland'}"></call>
 
   <hr>
 

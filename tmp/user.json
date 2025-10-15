@@ -9,5 +9,6 @@
     "address": {
         "street": "123 Main St",
         "city": "New York"
-    }
+    },
+    "role": "admin"
 }
