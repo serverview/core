@@ -4,35 +4,13 @@ import { VariableMap } from "../variable";
 import { parseHTML } from "linkedom";
 import { translateDocument } from "../translator";
 
-// Simple parser for JavaScript object literal-like strings
+// Parser for JavaScript object literal-like strings
 function parseObjectLiteral(str: string): { [key: string]: any } {
-    const obj: { [key: string]: any } = {};
-    // Remove outer curly braces if present
-    if (str.startsWith('{') && str.endsWith('}')) {
-        str = str.slice(1, -1);
-    }
-    // Split by comma, but not inside quotes
-    const pairs = str.match(/('[^']*'|"[^"]*"|[^,])+/g) || [];
-
-    for (const pair of pairs) {
-        const parts = pair.split(':');
-        if (parts.length === 2) {
-            let key = parts[0]!.trim();
-            let value = parts[1]!.trim();
-
-            // Remove quotes from key if present
-            if ((key.startsWith('\'') && key.endsWith('\'')) || (key.startsWith('"') && key.endsWith('"'))) {
-                key = key.slice(1, -1);
-            }
-
-            // Remove quotes from value if present
-            if ((value.startsWith('\'') && value.endsWith('\'')) || (value.startsWith('"') && value.endsWith('"'))) {
-                value = value.slice(1, -1);
-            }
-            obj[key] = value;
-        }
-    }
-    return obj;
+    // Add quotes to keys
+    let jsonString = str.replace(/([{,])\s*([a-zA-Z0-9_]+)\s*:/g, '$1"$2":');
+    // Replace single quotes with double quotes
+    jsonString = jsonString.replace(/'/g, '"');
+    return JSON.parse(jsonString);
 }
 
 const callHandler: ElementHandler = async (element, requestVariables) => {
