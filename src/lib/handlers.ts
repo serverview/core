@@ -8,6 +8,7 @@ import iterateHandler from './handlers/iterate';
 import setHandler from './handlers/set';
 import defineHandler from './handlers/define';
 import callHandler from './handlers/call';
+import switchHandler from './handlers/switch';
 
 export const elementHandlers = new Map<string, Handler>();
 
@@ -23,6 +24,7 @@ elementHandlers.set('call', { priority: 2, execute: callHandler });
 
 // Priority 3: Conditional rendering
 elementHandlers.set('condition', { priority: 3, execute: conditionHandler });
+elementHandlers.set('switch', { priority: 3, execute: switchHandler });
 
 // Priority 4: Content replacement
 elementHandlers.set('variable', { priority: 4, execute: variableHandler });

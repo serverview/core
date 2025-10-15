@@ -625,6 +625,43 @@
   <p><em>Output:</em></p>
   <call name="greetUser" with="userName:'Alice', city:'Wonderland'"></call>
 
+  <hr>
+
+  <h3>15. Using Switch and Case</h3>
+
+  <p>The <code>&lt;switch&gt;</code> and <code>&lt;case&gt;</code> elements provide a structured way to handle conditional logic.</p>
+
+  <p><em>Example:</em></p>
+
+  <code>
+    <pre>
+&lt;switch on="userData.role"&gt;
+  &lt;case is="'admin'"&gt;
+    &lt;p&gt;Welcome, administrator!&lt;/p&gt;
+  &lt;/case&gt;
+  &lt;case is="'editor'"&gt;
+    &lt;p&gt;Welcome, editor!&lt;/p&gt;
+  &lt;/case&gt;
+  &lt;default&gt;
+    &lt;p&gt;Welcome, user!&lt;/p&gt;
+  &lt;/default&gt;
+&lt;/switch&gt;
+    </pre>
+  </code>
+
+  <p><em>Output:</em></p>
+  <switch on="userData.role">
+    <case is="'admin'">
+      <p>Welcome, administrator!</p>
+    </case>
+    <case is="'editor'">
+      <p>Welcome, editor!</p>
+    </case>
+    <default>
+      <p>Welcome, user!</p>
+    </default>
+  </switch>
+
 </body>
 
 </html>
