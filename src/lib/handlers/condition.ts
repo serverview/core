@@ -119,10 +119,6 @@ const conditionHandler: ElementHandler = (element, requestVariables) => {
         if (thenElem) {
             finalValue = thenElem.innerHTML;
             containerTag = thenElem.getAttribute('container') || defaultContainerTag;
-        } else {
-            const elseElem = element.querySelector('else');
-            if (elseElem) elseElem.remove();
-            finalValue = element.innerHTML;
         }
     } else {
         const elseElem = element.querySelector('else');
