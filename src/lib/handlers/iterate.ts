@@ -1,7 +1,7 @@
 import { parseHTML } from 'linkedom';
 import { translateDocument } from '../translator';
 import type { ElementHandler } from '../types';
-import { VariableMap } from '../variable';
+import { VariableMap, getVariableValue } from '../variable';
 
 const iterateHandler: ElementHandler = async (element, requestVariables) => {
     const over = element.getAttribute('over');
@@ -17,34 +17,7 @@ const iterateHandler: ElementHandler = async (element, requestVariables) => {
         return;
     }
 
-    const parts = over.split('.');
-    const varName = parts.shift()!;
-    let data: any;
-
-    if (requestVariables.has(varName)) {
-        data = requestVariables.get(varName);
-    }
-
-    if (typeof data === 'string') {
-        try {
-            data = JSON.parse(data);
-        } catch (e) {
-            // Not a JSON string
-        }
-    }
-
-    if (parts.length > 0) {
-        let current = data;
-        for (const part of parts) {
-            if (current && typeof current === 'object' && part in current) {
-                current = current[part];
-            } else {
-                current = undefined;
-                break;
-            }
-        }
-        data = current;
-    }
+    const data = getVariableValue(over, requestVariables);
 
     if (!Array.isArray(data)) {
         element.outerHTML = `[SVH ERROR: "over" attribute in iterate tag must be an array, but found ${typeof data}]`;
