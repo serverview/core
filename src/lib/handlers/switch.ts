@@ -22,11 +22,13 @@ const switchHandler: ElementHandler = (element, requestVariables) => {
             let caseValue;
             if (isAttr.startsWith("'") && isAttr.endsWith("'")) {
                 caseValue = isAttr.slice(1, -1);
+            } else if (!isNaN(parseFloat(isAttr))) {
+                caseValue = parseFloat(isAttr);
             } else {
                 caseValue = getVariableValue(isAttr, requestVariables);
             }
 
-            if (switchValue === caseValue) {
+            if (switchValue == caseValue) {
                 finalValue = caseElement.innerHTML;
                 caseFound = true;
                 break;
