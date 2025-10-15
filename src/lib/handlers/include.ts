@@ -6,19 +6,19 @@ import { type ElementHandler } from '../types';
 import { fileCache } from '../cache';
 
 const includeHandler: ElementHandler = async (element, requestVariables) => {
-    const src = element.getAttribute('src');
+    const from = element.getAttribute('from');
 
-    if(!src){
-        element.outerHTML = '[SVH ERROR: include tag missing "src" attribute]';
+    if(!from){
+        element.outerHTML = '[SVH ERROR: include tag missing "from" attribute]';
         return;
     }
 
-    const resolvedPath = path.resolve(BASE_PATH, src);
+    const resolvedPath = path.resolve(BASE_PATH, from);
 
     // Security check to prevent directory traversal
     const resolvedBasePath = path.resolve(BASE_PATH);
     if (!resolvedPath.startsWith(resolvedBasePath)) {
-        element.outerHTML = '[SVH ERROR: include "src" attribute points outside of base path]';
+        element.outerHTML = '[SVH ERROR: include "from" attribute points outside of base path]';
         return;
     }
 
@@ -27,7 +27,7 @@ const includeHandler: ElementHandler = async (element, requestVariables) => {
     if (fileContent === undefined) {
         const file = Bun.file(resolvedPath);
         if (!await file.exists()) {
-            element.outerHTML = `[SVH ERROR: include file not found at '${src}']`;
+            element.outerHTML = `[SVH ERROR: include file not found at '${from}']`;
             return;
         }
         fileContent = await file.text();
@@ -35,7 +35,7 @@ const includeHandler: ElementHandler = async (element, requestVariables) => {
     }
 
     try {
-        if (src.endsWith('.svh')) {
+        if (from.endsWith('.svh')) {
             const doc = parseHTML(fileContent).document;
             await translateDocument(doc, requestVariables);
             element.outerHTML = doc.toString();
@@ -43,7 +43,7 @@ const includeHandler: ElementHandler = async (element, requestVariables) => {
             element.outerHTML = fileContent;
         }
     } catch (error) {
-        element.outerHTML = `[SVH ERROR: error including file at '${src}': ${error instanceof Error ? error.message : "Unknown error"}]`;
+        element.outerHTML = `[SVH ERROR: error including file at '${from}': ${error instanceof Error ? error.message : "Unknown error"}]`;
     }
 };
 

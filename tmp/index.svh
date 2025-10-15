@@ -227,9 +227,9 @@
   <p>You can embed content from other files directly into your page. Here we are including the content of
     <code>include.svh</code>:</p>
   <p><em>Example:</em></p>
-  <code>&lt;include src="include.svh"&gt;&lt;/include&gt;</code>
+  <code>&lt;include from="include.svh"&gt;&lt;/include&gt;</code>
   <p><em>Output:</em></p>
-  <include src="include.svh"></include>
+  <include from="include.svh"></include>
 
   <hr>
 
@@ -237,10 +237,10 @@
   <p>You can fetch data from a URL and store it in a user-defined variable with the <code>&lt;fetch&gt;</code> tag. You
     can then display the content of these variables using the <code>&lt;variable&gt;</code> tag.</p>
   <p><em>Example:</em></p>
-  <code>&lt;fetch href="/example.txt" as="fileContent"&gt;&lt;/fetch&gt;</code><br>
+  <code>&lt;fetch from="/example.txt" as="fileContent"&gt;&lt;/fetch&gt;</code><br>
   <code>&lt;p&gt;Fetched content: &lt;variable get="fileContent"&gt;&lt;/variable&gt;&lt;/p&gt;</code>
   <p><em>Output:</em></p>
-  <fetch href="/example.txt" as="fileContent"></fetch>
+  <fetch from="/example.txt" as="fileContent"></fetch>
   <p>Fetched content: <variable get="fileContent"></variable>
   </p>
 
@@ -249,12 +249,12 @@
   <h3>6. Handling JSON Data</h3>
   <p>You can fetch JSON data and access its properties using dot notation.</p>
   <p><em>Example:</em></p>
-  <code>&lt;fetch href="/user.json" as="userData"&gt;&lt;/fetch&gt;</code><br>
+  <code>&lt;fetch from="/user.json" as="userData"&gt;&lt;/fetch&gt;</code><br>
   <code>&lt;p&gt;User's Name: &lt;variable get="userData.name"&gt;&lt;/variable&gt;&lt;/p&gt;</code><br>
   <code>&lt;p&gt;User's Age: &lt;variable get="userData.age"&gt;&lt;/variable&gt;&lt;/p&gt;</code><br>
   <code>&lt;p&gt;User's City: &lt;variable get="userData.address.city"&gt;&lt;/variable&gt;&lt;/p&gt;</code>
   <p><em>Output:</em></p>
-  <fetch href="/user.json" as="userData"></fetch>
+  <fetch from="/user.json" as="userData"></fetch>
   <p>User's Name: <variable get="userData.name"></variable>
   </p>
   <p>User's Age: <variable get="userData.age"></variable>

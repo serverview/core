@@ -2,11 +2,11 @@ import type { VariableMap } from '../variable';
 import { ElementHandler } from '../types';
 
 const fetchHandler: ElementHandler = async (element, requestVariables) => {
-    const href = element.getAttribute("href");
+    const from = element.getAttribute("from");
     const varName = element.getAttribute("as");
 
-    if (!href) {
-        element.outerHTML = '[SVH ERROR: fetch tag missing "href" attribute]';
+    if (!from) {
+        element.outerHTML = '[SVH ERROR: fetch tag missing "from" attribute]';
         return;
     }
 
@@ -16,11 +16,11 @@ const fetchHandler: ElementHandler = async (element, requestVariables) => {
     }
 
     try {
-        let fetchUrl = href;
-        if (href.startsWith('/')) {
+        let fetchUrl = from;
+        if (from.startsWith('/')) {
             const baseUrl = requestVariables.get('request.baseUrl');
             if (baseUrl) {
-                fetchUrl = `${baseUrl}${href}`;
+                fetchUrl = `${baseUrl}${from}`;
             }
         }
         const response = await fetch(fetchUrl);
