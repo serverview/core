@@ -12,6 +12,13 @@ Install dependencies:
 bun install
 ```
 
+Build the project:
+
+```bash
+chmod +x ./build.sh
+./build.sh
+```
+
 Run the development server:
 
 ```bash
